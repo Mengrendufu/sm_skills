@@ -1,0 +1,129 @@
+{
+  "version": "1.0",
+  "machine_name": "SampleMachine",
+  "inputs": {
+    "ir_path": "assets/examples/<case>/<machine>.ir.json",
+    "trace_path": "assets/examples/<case>/<machine>.trace.txt",
+    "is_reliable": true,
+    "diagnostics": []
+  },
+  "verdict": {
+    "status": "PASS",
+    "reason": "All required semantic invariants were preserved across the target runtimes."
+  },
+  "hierarchy_check": {
+    "status": "PASS",
+    "roots": [
+      "root-state-id"
+    ],
+    "parent_chains": [
+      {
+        "state_id": "child-state-id",
+        "parent_id": "parent-state-id"
+      }
+    ],
+    "notes": []
+  },
+  "init_check": {
+    "status": "PASS",
+    "top_initial": {
+      "source": "TOP",
+      "target_state_id": "root-state-id"
+    },
+    "composite_initials": [
+      {
+        "state_id": "composite-state-id",
+        "target_state_id": "leaf-state-id"
+      }
+    ],
+    "trace_alignment": true,
+    "notes": []
+  },
+  "transition_checks": [
+    {
+      "transition_id": "state::EVENT#0",
+      "status": "PASS",
+      "source_state_id": "state",
+      "trigger": "EVENT",
+      "target_state_id": "target-state",
+      "effect": "preserved",
+      "mappings": [
+        {
+          "runtime": "ts_hsm",
+          "location": "SampleState.handle"
+        },
+        {
+          "runtime": "sm_hsm",
+          "location": "Sample_state_"
+        },
+        {
+          "runtime": "rs_hsm_",
+          "location": "Sample_state_"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "choice_checks": [
+    {
+      "transition_id": "state::EVENT#1",
+      "status": "PASS",
+      "branches": [
+        {
+          "guard": "condition()",
+          "kind": "external",
+          "behavior": "target-state-id",
+          "mappings": [
+            {
+              "runtime": "ts_hsm",
+              "location": "SampleState.handle"
+            },
+            {
+              "runtime": "sm_hsm",
+              "location": "Sample_state_"
+            },
+            {
+              "runtime": "rs_hsm_",
+              "location": "Sample_state_"
+            }
+          ]
+        },
+        {
+          "guard": "else",
+          "kind": "internal",
+          "behavior": "handled",
+          "mappings": [
+            {
+              "runtime": "ts_hsm",
+              "location": "SampleState.handle"
+            },
+            {
+              "runtime": "sm_hsm",
+              "location": "Sample_state_"
+            },
+            {
+              "runtime": "rs_hsm_",
+              "location": "Sample_state_"
+            }
+          ]
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "delegation_checks": [
+    {
+      "state_id": "state-id",
+      "trigger": "DEFAULT",
+      "status": "PASS",
+      "mechanisms": {
+        "ts_hsm": "superState()",
+        "sm_hsm": "_SM_SUPER()",
+        "rs_hsm_": "SM_RetState::Super"
+      },
+      "notes": []
+    }
+  ],
+  "adaptations": [],
+  "blockers": []
+}

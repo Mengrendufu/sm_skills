@@ -1,0 +1,497 @@
+{
+  "version": "1.0",
+  "machine_name": "SM_Master",
+  "inputs": {
+    "ir_path": "sm_master.ir.json",
+    "trace_path": "sm_master.trace.json",
+    "is_reliable": true,
+    "diagnostics": []
+  },
+  "verdict": {
+    "status": "BLOCKED",
+    "reason": "Generated scaffold requires runtime location review and semantic confirmation before PASS."
+  },
+  "hierarchy_check": {
+    "status": "BLOCKED",
+    "roots": [
+      "inactive",
+      "active"
+    ],
+    "parent_chains": [
+      {
+        "state_id": "active/idle",
+        "parent_id": "active"
+      },
+      {
+        "state_id": "active/routing",
+        "parent_id": "active"
+      },
+      {
+        "state_id": "active/routing/successful",
+        "parent_id": "active/routing"
+      },
+      {
+        "state_id": "active/delegating",
+        "parent_id": "active"
+      },
+      {
+        "state_id": "active/working",
+        "parent_id": "active"
+      }
+    ],
+    "notes": [
+      "Confirm that each runtime preserves the same parent-child hierarchy."
+    ]
+  },
+  "init_check": {
+    "status": "BLOCKED",
+    "top_initial": {
+      "source": "TOP",
+      "target_state_id": "inactive"
+    },
+    "composite_initials": [
+      {
+        "state_id": "active",
+        "target_state_id": "active/idle"
+      }
+    ],
+    "trace_alignment": true,
+    "notes": [
+      "Confirm init ordering against the trace JSON before marking PASS."
+    ]
+  },
+  "transition_checks": [
+    {
+      "transition_id": "inactive::USER_SLASH_COMMAND_MASTER#0",
+      "status": "BLOCKED",
+      "source_state_id": "inactive",
+      "trigger": "USER_SLASH_COMMAND_MASTER",
+      "target_state_id": "active",
+      "effect": "none",
+      "mappings": [
+        {
+          "runtime": "ts_hsm",
+          "location": "SM_MasterInactiveState.handle"
+        },
+        {
+          "runtime": "sm_hsm",
+          "location": "SM_Master_inactive_"
+        },
+        {
+          "runtime": "rs_hsm_",
+          "location": "SM_Master_inactive_"
+        }
+      ],
+      "notes": [
+        "Trace-derived external transition; confirm locations and effect handling before marking PASS."
+      ]
+    },
+    {
+      "transition_id": "active::USER_SLASH_COMMAND_MASTER#0",
+      "status": "BLOCKED",
+      "source_state_id": "active",
+      "trigger": "USER_SLASH_COMMAND_MASTER",
+      "target_state_id": "inactive",
+      "effect": "none",
+      "mappings": [
+        {
+          "runtime": "ts_hsm",
+          "location": "SM_MasterActiveState.handle"
+        },
+        {
+          "runtime": "sm_hsm",
+          "location": "SM_Master_active_"
+        },
+        {
+          "runtime": "rs_hsm_",
+          "location": "SM_Master_active_"
+        }
+      ],
+      "notes": [
+        "Trace-derived external transition; confirm locations and effect handling before marking PASS."
+      ]
+    },
+    {
+      "transition_id": "active/idle::USER_INPUT_PROMPTS#0",
+      "status": "BLOCKED",
+      "source_state_id": "active/idle",
+      "trigger": "USER_INPUT_PROMPTS",
+      "target_state_id": "active/routing",
+      "effect": "event.inputEvtResult = { action: \"continue\" };",
+      "mappings": [
+        {
+          "runtime": "ts_hsm",
+          "location": "SM_MasterIdleState.handle"
+        },
+        {
+          "runtime": "sm_hsm",
+          "location": "SM_Master_idle_"
+        },
+        {
+          "runtime": "rs_hsm_",
+          "location": "SM_Master_idle_"
+        }
+      ],
+      "notes": [
+        "Trace-derived external transition; confirm locations and effect handling before marking PASS."
+      ]
+    },
+    {
+      "transition_id": "active/routing::TOOL_RESULT#2",
+      "status": "BLOCKED",
+      "source_state_id": "active/routing",
+      "trigger": "TOOL_RESULT",
+      "target_state_id": "active/routing/successful",
+      "effect": "review guarded branches",
+      "mappings": [
+        {
+          "runtime": "ts_hsm",
+          "location": "SM_MasterRoutingState.handle"
+        },
+        {
+          "runtime": "sm_hsm",
+          "location": "SM_Master_routing_"
+        },
+        {
+          "runtime": "rs_hsm_",
+          "location": "SM_Master_routing_"
+        }
+      ],
+      "notes": [
+        "This choice transition has at least one external branch; verify branch-level mappings in choice_checks."
+      ]
+    },
+    {
+      "transition_id": "active/routing/successful::AGENT_END#0",
+      "status": "BLOCKED",
+      "source_state_id": "active/routing/successful",
+      "trigger": "AGENT_END",
+      "target_state_id": "active/delegating",
+      "effect": "none",
+      "mappings": [
+        {
+          "runtime": "ts_hsm",
+          "location": "SM_MasterSuccessfulState.handle"
+        },
+        {
+          "runtime": "sm_hsm",
+          "location": "SM_Master_successful_"
+        },
+        {
+          "runtime": "rs_hsm_",
+          "location": "SM_Master_successful_"
+        }
+      ],
+      "notes": [
+        "Trace-derived external transition; confirm locations and effect handling before marking PASS."
+      ]
+    },
+    {
+      "transition_id": "active/delegating::TIMEOUT#0",
+      "status": "BLOCKED",
+      "source_state_id": "active/delegating",
+      "trigger": "TIMEOUT",
+      "target_state_id": "active/working",
+      "effect": "review guarded branches",
+      "mappings": [
+        {
+          "runtime": "ts_hsm",
+          "location": "SM_MasterDelegatingState.handle"
+        },
+        {
+          "runtime": "sm_hsm",
+          "location": "SM_Master_delegating_"
+        },
+        {
+          "runtime": "rs_hsm_",
+          "location": "SM_Master_delegating_"
+        }
+      ],
+      "notes": [
+        "This choice transition has at least one external branch; verify branch-level mappings in choice_checks."
+      ]
+    },
+    {
+      "transition_id": "active/working::AGENT_END#1",
+      "status": "BLOCKED",
+      "source_state_id": "active/working",
+      "trigger": "AGENT_END",
+      "target_state_id": "active/idle",
+      "effect": "// 单轮工作结束，后续循环工作流可在此触发（当前直接回到idle，等待用户触发）",
+      "mappings": [
+        {
+          "runtime": "ts_hsm",
+          "location": "SM_MasterWorkingState.handle"
+        },
+        {
+          "runtime": "sm_hsm",
+          "location": "SM_Master_working_"
+        },
+        {
+          "runtime": "rs_hsm_",
+          "location": "SM_Master_working_"
+        }
+      ],
+      "notes": [
+        "Trace-derived external transition; confirm locations and effect handling before marking PASS."
+      ]
+    }
+  ],
+  "choice_checks": [
+    {
+      "transition_id": "active/routing::TOOL_CALL#1",
+      "status": "BLOCKED",
+      "branches": [
+        {
+          "guard": "validDispatchToolCall()",
+          "kind": "internal",
+          "behavior": "handled with side effect",
+          "mappings": [
+            {
+              "runtime": "ts_hsm",
+              "location": "SM_MasterRoutingState.handle"
+            },
+            {
+              "runtime": "sm_hsm",
+              "location": "SM_Master_routing_"
+            },
+            {
+              "runtime": "rs_hsm_",
+              "location": "SM_Master_routing_"
+            }
+          ]
+        },
+        {
+          "guard": "else",
+          "kind": "internal",
+          "behavior": "handled with side effect",
+          "mappings": [
+            {
+              "runtime": "ts_hsm",
+              "location": "SM_MasterRoutingState.handle"
+            },
+            {
+              "runtime": "sm_hsm",
+              "location": "SM_Master_routing_"
+            },
+            {
+              "runtime": "rs_hsm_",
+              "location": "SM_Master_routing_"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Review each generated branch and replace inferred runtime locations if they differ from the implementation."
+      ]
+    },
+    {
+      "transition_id": "active/routing::TOOL_RESULT#2",
+      "status": "BLOCKED",
+      "branches": [
+        {
+          "guard": "subagentBlockFormatValid()",
+          "kind": "external",
+          "behavior": "active/routing/successful",
+          "mappings": [
+            {
+              "runtime": "ts_hsm",
+              "location": "SM_MasterRoutingState.handle"
+            },
+            {
+              "runtime": "sm_hsm",
+              "location": "SM_Master_routing_"
+            },
+            {
+              "runtime": "rs_hsm_",
+              "location": "SM_Master_routing_"
+            }
+          ]
+        },
+        {
+          "guard": "else",
+          "kind": "internal",
+          "behavior": "handled with side effect",
+          "mappings": [
+            {
+              "runtime": "ts_hsm",
+              "location": "SM_MasterRoutingState.handle"
+            },
+            {
+              "runtime": "sm_hsm",
+              "location": "SM_Master_routing_"
+            },
+            {
+              "runtime": "rs_hsm_",
+              "location": "SM_Master_routing_"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Review each generated branch and replace inferred runtime locations if they differ from the implementation."
+      ]
+    },
+    {
+      "transition_id": "active/delegating::TIMEOUT#0",
+      "status": "BLOCKED",
+      "branches": [
+        {
+          "guard": "areAllSubagentsDone(me.subagentBlocks)",
+          "kind": "external",
+          "behavior": "active/working",
+          "mappings": [
+            {
+              "runtime": "ts_hsm",
+              "location": "SM_MasterDelegatingState.handle"
+            },
+            {
+              "runtime": "sm_hsm",
+              "location": "SM_Master_delegating_"
+            },
+            {
+              "runtime": "rs_hsm_",
+              "location": "SM_Master_delegating_"
+            }
+          ]
+        },
+        {
+          "guard": "else",
+          "kind": "internal",
+          "behavior": "handled with side effect",
+          "mappings": [
+            {
+              "runtime": "ts_hsm",
+              "location": "SM_MasterDelegatingState.handle"
+            },
+            {
+              "runtime": "sm_hsm",
+              "location": "SM_Master_delegating_"
+            },
+            {
+              "runtime": "rs_hsm_",
+              "location": "SM_Master_delegating_"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Review each generated branch and replace inferred runtime locations if they differ from the implementation."
+      ]
+    }
+  ],
+  "delegation_checks": [
+    {
+      "state_id": "inactive",
+      "trigger": "DEFAULT",
+      "status": "BLOCKED",
+      "mechanisms": {
+        "ts_hsm": "superState()",
+        "sm_hsm": "_SM_SUPER()",
+        "rs_hsm_": "SM_RetState::Super"
+      },
+      "notes": [
+        "Review default delegation path to TOP."
+      ]
+    },
+    {
+      "state_id": "active",
+      "trigger": "DEFAULT",
+      "status": "BLOCKED",
+      "mechanisms": {
+        "ts_hsm": "superState()",
+        "sm_hsm": "_SM_SUPER()",
+        "rs_hsm_": "SM_RetState::Super"
+      },
+      "notes": [
+        "Review default delegation path to TOP."
+      ]
+    },
+    {
+      "state_id": "active/idle",
+      "trigger": "DEFAULT",
+      "status": "BLOCKED",
+      "mechanisms": {
+        "ts_hsm": "superState()",
+        "sm_hsm": "_SM_SUPER()",
+        "rs_hsm_": "SM_RetState::Super"
+      },
+      "notes": [
+        "Review default delegation path to active."
+      ]
+    },
+    {
+      "state_id": "active/routing",
+      "trigger": "DEFAULT",
+      "status": "BLOCKED",
+      "mechanisms": {
+        "ts_hsm": "superState()",
+        "sm_hsm": "_SM_SUPER()",
+        "rs_hsm_": "SM_RetState::Super"
+      },
+      "notes": [
+        "Review default delegation path to active."
+      ]
+    },
+    {
+      "state_id": "active/routing/successful",
+      "trigger": "DEFAULT",
+      "status": "BLOCKED",
+      "mechanisms": {
+        "ts_hsm": "superState()",
+        "sm_hsm": "_SM_SUPER()",
+        "rs_hsm_": "SM_RetState::Super"
+      },
+      "notes": [
+        "Review default delegation path to active/routing."
+      ]
+    },
+    {
+      "state_id": "active/delegating",
+      "trigger": "DEFAULT",
+      "status": "BLOCKED",
+      "mechanisms": {
+        "ts_hsm": "superState()",
+        "sm_hsm": "_SM_SUPER()",
+        "rs_hsm_": "SM_RetState::Super"
+      },
+      "notes": [
+        "Review default delegation path to active."
+      ]
+    },
+    {
+      "state_id": "active/working",
+      "trigger": "DEFAULT",
+      "status": "BLOCKED",
+      "mechanisms": {
+        "ts_hsm": "superState()",
+        "sm_hsm": "_SM_SUPER()",
+        "rs_hsm_": "SM_RetState::Super"
+      },
+      "notes": [
+        "Review default delegation path to active."
+      ]
+    }
+  ],
+  "adaptations": [],
+  "blockers": [
+    "Replace inferred runtime locations with reviewed implementation locations.",
+    "Review every BLOCKED section and item before marking the report PASS."
+  ],
+  "_meta": {
+    "common_base": "/home/sunnymatato/.config/opencode/skills/qm-c-hsm-implementor/assets/examples/sm-master",
+    "generated_from": {
+      "ir_path": "/home/sunnymatato/.config/opencode/skills/qm-c-hsm-implementor/assets/examples/sm-master/sm_master.ir.json",
+      "trace_path": "/home/sunnymatato/.config/opencode/skills/qm-c-hsm-implementor/assets/examples/sm-master/sm_master.trace.json"
+    },
+    "known_state_ids": [
+      "active",
+      "active/delegating",
+      "active/idle",
+      "active/routing",
+      "active/routing/successful",
+      "active/working",
+      "inactive"
+    ]
+  }
+}

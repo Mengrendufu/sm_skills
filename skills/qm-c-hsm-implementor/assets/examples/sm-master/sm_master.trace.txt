@@ -1,0 +1,56 @@
+Machine: SM_Master
+Reliable: yes
+
+Diagnostics:
+- none
+
+Default Init Trace:
+- TOP_INIT -> inactive
+- enter: inactive
+
+External Transition Traces:
+- inactive::USER_SLASH_COMMAND_MASTER#0: inactive --USER_SLASH_COMMAND_MASTER--> active
+  - exit: inactive
+  - enter: active
+  - init: active -> active/idle
+  - enter: active/idle
+- active::USER_SLASH_COMMAND_MASTER#0: active --USER_SLASH_COMMAND_MASTER--> inactive
+  - exit: active
+  - enter: inactive
+- active/idle::USER_INPUT_PROMPTS#0: active/idle --USER_INPUT_PROMPTS--> active/routing
+  - exit: active/idle
+  - effect: event.inputEvtResult = { action: "continue" };
+  - enter: active/routing
+- active/routing::TOOL_RESULT#2: active/routing --TOOL_RESULT [subagentBlockFormatValid()]--> active/routing/successful
+  - enter: active/routing/successful
+- active/routing/successful::AGENT_END#0: active/routing/successful --AGENT_END--> active/delegating
+  - exit: active/routing/successful
+  - exit: active/routing
+  - enter: active/delegating
+- active/delegating::TIMEOUT#0: active/delegating --TIMEOUT [areAllSubagentsDone(me.subagentBlocks)]--> active/working
+  - exit: active/delegating
+  - enter: active/working
+- active/working::AGENT_END#1: active/working --AGENT_END--> active/idle
+  - exit: active/working
+  - effect: // 单轮工作结束，后续循环工作流可在此触发（当前直接回到idle，等待用户触发）
+  - enter: active/idle
+
+Handled Event Ownership:
+- inactive
+  - USER_SLASH_COMMAND_MASTER: owned here as external [inactive::USER_SLASH_COMMAND_MASTER#0]
+- active
+  - USER_SLASH_COMMAND_MASTER: owned here as external [active::USER_SLASH_COMMAND_MASTER#0]
+  - USER_INPUT_PROMPTS: owned here as internal [active::USER_INPUT_PROMPTS#1]
+- active/idle
+  - USER_INPUT_PROMPTS: owned here as external [active/idle::USER_INPUT_PROMPTS#0]
+- active/routing
+  - BEFORE_AGENT_START: owned here as internal [active/routing::BEFORE_AGENT_START#0]
+  - TOOL_CALL: owned here as choice [active/routing::TOOL_CALL#1]
+  - TOOL_RESULT: owned here as choice [active/routing::TOOL_RESULT#2]
+- active/routing/successful
+  - AGENT_END: owned here as external [active/routing/successful::AGENT_END#0]
+- active/delegating
+  - TIMEOUT: owned here as choice [active/delegating::TIMEOUT#0]
+- active/working
+  - BEFORE_AGENT_START: owned here as internal [active/working::BEFORE_AGENT_START#0]
+  - AGENT_END: owned here as external [active/working::AGENT_END#1]

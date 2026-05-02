@@ -1,0 +1,74 @@
+Machine: SM_Master
+States: 7
+Transitions: 11
+
+State Hierarchy:
+- inactive
+- active [initial -> active/idle]
+  - active/idle
+  - active/routing
+    - active/routing/successful
+  - active/delegating
+  - active/working
+
+Default Initial Path:
+- top -> inactive
+
+Composite Initials:
+- active -> active/idle
+
+State Index:
+- inactive: parent=top
+- active: parent=top
+- active/idle: parent=active
+- active/routing: parent=active
+- active/routing/successful: parent=active/routing
+- active/delegating: parent=active
+- active/working: parent=active
+
+State Semantics:
+- active
+  - entry: // load master.md systemPrompts
+me.loadAgent(g_extensionCommandContext);
+// status display
+me.updateStatus("master -- active");
+  - initial: active/idle
+- active/idle
+  - entry: // 清空当前的subagentBlock
+- active/delegating
+  - entry: // 派发所有的子进程
+// 挂载TIMEOUT事件
+- active/working
+  - entry: // 用g_extensionApi.sendMessage(...)明确发起新一轮对话,
+// 告知LLM所有子进程已经运行结束，收集结果并完成工作
+
+Transitions By State:
+- inactive
+  - USER_SLASH_COMMAND_MASTER: external -> active
+- active
+  - USER_SLASH_COMMAND_MASTER: external -> inactive
+  - USER_INPUT_PROMPTS: internal / // ignore user input and notify user
+g_extensionsContext.ui.notify(`Not today!!!`, "warning");
+event.inputEvtResult = { action: "handled" };
+- active/idle
+  - USER_INPUT_PROMPTS: external -> active/routing / event.inputEvtResult = { action: "continue" };
+- active/routing
+  - BEFORE_AGENT_START: internal / // { _me.piOriginalSysPrompts + _me.agentPrompts + DISPATCH_ONLY加强提示词 }
+  - TOOL_CALL: choice
+    - [validDispatchToolCall()] internal / // 直接放行
+    - [else] internal / // 不允许执行，
+// 用g_extensionApi.sendMessage(...)明确发起新一轮对话,
+// 告知LLM必须遵守协议，调用对应的工具
+  - TOOL_RESULT: choice
+    - [subagentBlockFormatValid()] external -> active/routing/successful
+    - [else] internal / // 用g_extensionApi.sendMessage(...)明确触发新轮告诉LLM正确地调用工具
+- active/routing/successful
+  - AGENT_END: external -> active/delegating
+- active/delegating
+  - TIMEOUT: choice
+    - [areAllSubagentsDone(me.subagentBlocks)] external -> active/working
+    - [else] internal / // 监控subagents进程的执行状态
+// 对活动的进程进行动态超时管理
+- active/working
+  - BEFORE_AGENT_START: internal / // { _me.piOriginalSysPrompts + _me.agentPrompts + WORKING加强提示词 }
+  - AGENT_END: external -> active/idle / // 单轮工作结束，后续循环工作流可在此触发（当前直接回到idle，等待用户触发）

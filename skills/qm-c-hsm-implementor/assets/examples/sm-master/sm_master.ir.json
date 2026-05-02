@@ -1,0 +1,456 @@
+{
+  "machine_name": "SM_Master",
+  "top_initial": {
+    "guard": null,
+    "target": "inactive",
+    "target_state_id": "inactive",
+    "action": null,
+    "kind": "external",
+    "is_else": false
+  },
+  "states": [
+    {
+      "id": "inactive",
+      "name": "inactive",
+      "path": "inactive",
+      "parent": null,
+      "parent_id": null,
+      "entry": null,
+      "exit": null,
+      "transitions": [
+        {
+          "id": "inactive::USER_SLASH_COMMAND_MASTER#0",
+          "owner_state": "inactive",
+          "owner_state_id": "inactive",
+          "trigger": "USER_SLASH_COMMAND_MASTER",
+          "kind": "external",
+          "target": "active",
+          "target_state_id": "active",
+          "action": null,
+          "guard": null
+        }
+      ]
+    },
+    {
+      "id": "active",
+      "name": "active",
+      "path": "active",
+      "parent": null,
+      "parent_id": null,
+      "entry": "// load master.md systemPrompts\nme.loadAgent(g_extensionCommandContext);\n// status display\nme.updateStatus(\"master -- active\");",
+      "exit": null,
+      "initial": {
+        "target": "idle",
+        "target_state_id": "active/idle",
+        "action": null,
+        "kind": "external"
+      },
+      "transitions": [
+        {
+          "id": "active::USER_SLASH_COMMAND_MASTER#0",
+          "owner_state": "active",
+          "owner_state_id": "active",
+          "trigger": "USER_SLASH_COMMAND_MASTER",
+          "kind": "external",
+          "target": "inactive",
+          "target_state_id": "inactive",
+          "action": null,
+          "guard": null
+        },
+        {
+          "id": "active::USER_INPUT_PROMPTS#1",
+          "owner_state": "active",
+          "owner_state_id": "active",
+          "trigger": "USER_INPUT_PROMPTS",
+          "kind": "internal",
+          "target": null,
+          "target_state_id": null,
+          "action": "// ignore user input and notify user\ng_extensionsContext.ui.notify(`Not today!!!`, \"warning\");\nevent.inputEvtResult = { action: \"handled\" };",
+          "guard": null
+        }
+      ],
+      "children": [
+        {
+          "id": "active/idle",
+          "name": "idle",
+          "path": "active/idle",
+          "parent": "active",
+          "parent_id": "active",
+          "entry": "// 清空当前的subagentBlock",
+          "exit": null,
+          "transitions": [
+            {
+              "id": "active/idle::USER_INPUT_PROMPTS#0",
+              "owner_state": "idle",
+              "owner_state_id": "active/idle",
+              "trigger": "USER_INPUT_PROMPTS",
+              "kind": "external",
+              "target": "routing",
+              "target_state_id": "active/routing",
+              "action": "event.inputEvtResult = { action: \"continue\" };",
+              "guard": null
+            }
+          ]
+        },
+        {
+          "id": "active/routing",
+          "name": "routing",
+          "path": "active/routing",
+          "parent": "active",
+          "parent_id": "active",
+          "entry": null,
+          "exit": null,
+          "transitions": [
+            {
+              "id": "active/routing::BEFORE_AGENT_START#0",
+              "owner_state": "routing",
+              "owner_state_id": "active/routing",
+              "trigger": "BEFORE_AGENT_START",
+              "kind": "internal",
+              "target": null,
+              "target_state_id": null,
+              "action": "// { _me.piOriginalSysPrompts + _me.agentPrompts + DISPATCH_ONLY加强提示词 }",
+              "guard": null
+            },
+            {
+              "id": "active/routing::TOOL_CALL#1",
+              "owner_state": "routing",
+              "owner_state_id": "active/routing",
+              "trigger": "TOOL_CALL",
+              "kind": "choice",
+              "target": null,
+              "target_state_id": null,
+              "action": "// 直接放行",
+              "guard": "validDispatchToolCall()",
+              "branches": [
+                {
+                  "guard": "validDispatchToolCall()",
+                  "target": null,
+                  "target_state_id": null,
+                  "action": "// 直接放行",
+                  "kind": "internal",
+                  "is_else": false
+                },
+                {
+                  "guard": null,
+                  "target": null,
+                  "target_state_id": null,
+                  "action": "// 不允许执行，\n// 用g_extensionApi.sendMessage(...)明确发起新一轮对话,\n// 告知LLM必须遵守协议，调用对应的工具",
+                  "kind": "internal",
+                  "is_else": true
+                }
+              ]
+            },
+            {
+              "id": "active/routing::TOOL_RESULT#2",
+              "owner_state": "routing",
+              "owner_state_id": "active/routing",
+              "trigger": "TOOL_RESULT",
+              "kind": "choice",
+              "target": "successful",
+              "target_state_id": "active/routing/successful",
+              "action": null,
+              "guard": "subagentBlockFormatValid()",
+              "branches": [
+                {
+                  "guard": "subagentBlockFormatValid()",
+                  "target": "successful",
+                  "target_state_id": "active/routing/successful",
+                  "action": null,
+                  "kind": "external",
+                  "is_else": false
+                },
+                {
+                  "guard": null,
+                  "target": null,
+                  "target_state_id": null,
+                  "action": "// 用g_extensionApi.sendMessage(...)明确触发新轮告诉LLM正确地调用工具",
+                  "kind": "internal",
+                  "is_else": true
+                }
+              ]
+            }
+          ],
+          "children": [
+            {
+              "id": "active/routing/successful",
+              "name": "successful",
+              "path": "active/routing/successful",
+              "parent": "routing",
+              "parent_id": "active/routing",
+              "entry": null,
+              "exit": null,
+              "transitions": [
+                {
+                  "id": "active/routing/successful::AGENT_END#0",
+                  "owner_state": "successful",
+                  "owner_state_id": "active/routing/successful",
+                  "trigger": "AGENT_END",
+                  "kind": "external",
+                  "target": "delegating",
+                  "target_state_id": "active/delegating",
+                  "action": null,
+                  "guard": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "active/delegating",
+          "name": "delegating",
+          "path": "active/delegating",
+          "parent": "active",
+          "parent_id": "active",
+          "entry": "// 派发所有的子进程\n// 挂载TIMEOUT事件",
+          "exit": null,
+          "transitions": [
+            {
+              "id": "active/delegating::TIMEOUT#0",
+              "owner_state": "delegating",
+              "owner_state_id": "active/delegating",
+              "trigger": "TIMEOUT",
+              "kind": "choice",
+              "target": "working",
+              "target_state_id": "active/working",
+              "action": null,
+              "guard": "areAllSubagentsDone(me.subagentBlocks)",
+              "branches": [
+                {
+                  "guard": "areAllSubagentsDone(me.subagentBlocks)",
+                  "target": "working",
+                  "target_state_id": "active/working",
+                  "action": null,
+                  "kind": "external",
+                  "is_else": false
+                },
+                {
+                  "guard": null,
+                  "target": null,
+                  "target_state_id": null,
+                  "action": "// 监控subagents进程的执行状态\n// 对活动的进程进行动态超时管理",
+                  "kind": "internal",
+                  "is_else": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "active/working",
+          "name": "working",
+          "path": "active/working",
+          "parent": "active",
+          "parent_id": "active",
+          "entry": "// 用g_extensionApi.sendMessage(...)明确发起新一轮对话,\n// 告知LLM所有子进程已经运行结束，收集结果并完成工作",
+          "exit": null,
+          "transitions": [
+            {
+              "id": "active/working::BEFORE_AGENT_START#0",
+              "owner_state": "working",
+              "owner_state_id": "active/working",
+              "trigger": "BEFORE_AGENT_START",
+              "kind": "internal",
+              "target": null,
+              "target_state_id": null,
+              "action": "// { _me.piOriginalSysPrompts + _me.agentPrompts + WORKING加强提示词 }",
+              "guard": null
+            },
+            {
+              "id": "active/working::AGENT_END#1",
+              "owner_state": "working",
+              "owner_state_id": "active/working",
+              "trigger": "AGENT_END",
+              "kind": "external",
+              "target": "idle",
+              "target_state_id": "active/idle",
+              "action": "// 单轮工作结束，后续循环工作流可在此触发（当前直接回到idle，等待用户触发）",
+              "guard": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "id": "inactive::USER_SLASH_COMMAND_MASTER#0",
+      "owner_state": "inactive",
+      "owner_state_id": "inactive",
+      "trigger": "USER_SLASH_COMMAND_MASTER",
+      "kind": "external",
+      "target": "active",
+      "target_state_id": "active",
+      "action": null,
+      "guard": null
+    },
+    {
+      "id": "active::USER_SLASH_COMMAND_MASTER#0",
+      "owner_state": "active",
+      "owner_state_id": "active",
+      "trigger": "USER_SLASH_COMMAND_MASTER",
+      "kind": "external",
+      "target": "inactive",
+      "target_state_id": "inactive",
+      "action": null,
+      "guard": null
+    },
+    {
+      "id": "active::USER_INPUT_PROMPTS#1",
+      "owner_state": "active",
+      "owner_state_id": "active",
+      "trigger": "USER_INPUT_PROMPTS",
+      "kind": "internal",
+      "target": null,
+      "target_state_id": null,
+      "action": "// ignore user input and notify user\ng_extensionsContext.ui.notify(`Not today!!!`, \"warning\");\nevent.inputEvtResult = { action: \"handled\" };",
+      "guard": null
+    },
+    {
+      "id": "active/idle::USER_INPUT_PROMPTS#0",
+      "owner_state": "idle",
+      "owner_state_id": "active/idle",
+      "trigger": "USER_INPUT_PROMPTS",
+      "kind": "external",
+      "target": "routing",
+      "target_state_id": "active/routing",
+      "action": "event.inputEvtResult = { action: \"continue\" };",
+      "guard": null
+    },
+    {
+      "id": "active/routing::BEFORE_AGENT_START#0",
+      "owner_state": "routing",
+      "owner_state_id": "active/routing",
+      "trigger": "BEFORE_AGENT_START",
+      "kind": "internal",
+      "target": null,
+      "target_state_id": null,
+      "action": "// { _me.piOriginalSysPrompts + _me.agentPrompts + DISPATCH_ONLY加强提示词 }",
+      "guard": null
+    },
+    {
+      "id": "active/routing::TOOL_CALL#1",
+      "owner_state": "routing",
+      "owner_state_id": "active/routing",
+      "trigger": "TOOL_CALL",
+      "kind": "choice",
+      "target": null,
+      "target_state_id": null,
+      "action": "// 直接放行",
+      "guard": "validDispatchToolCall()",
+      "branches": [
+        {
+          "guard": "validDispatchToolCall()",
+          "target": null,
+          "target_state_id": null,
+          "action": "// 直接放行",
+          "kind": "internal",
+          "is_else": false
+        },
+        {
+          "guard": null,
+          "target": null,
+          "target_state_id": null,
+          "action": "// 不允许执行，\n// 用g_extensionApi.sendMessage(...)明确发起新一轮对话,\n// 告知LLM必须遵守协议，调用对应的工具",
+          "kind": "internal",
+          "is_else": true
+        }
+      ]
+    },
+    {
+      "id": "active/routing::TOOL_RESULT#2",
+      "owner_state": "routing",
+      "owner_state_id": "active/routing",
+      "trigger": "TOOL_RESULT",
+      "kind": "choice",
+      "target": "successful",
+      "target_state_id": "active/routing/successful",
+      "action": null,
+      "guard": "subagentBlockFormatValid()",
+      "branches": [
+        {
+          "guard": "subagentBlockFormatValid()",
+          "target": "successful",
+          "target_state_id": "active/routing/successful",
+          "action": null,
+          "kind": "external",
+          "is_else": false
+        },
+        {
+          "guard": null,
+          "target": null,
+          "target_state_id": null,
+          "action": "// 用g_extensionApi.sendMessage(...)明确触发新轮告诉LLM正确地调用工具",
+          "kind": "internal",
+          "is_else": true
+        }
+      ]
+    },
+    {
+      "id": "active/routing/successful::AGENT_END#0",
+      "owner_state": "successful",
+      "owner_state_id": "active/routing/successful",
+      "trigger": "AGENT_END",
+      "kind": "external",
+      "target": "delegating",
+      "target_state_id": "active/delegating",
+      "action": null,
+      "guard": null
+    },
+    {
+      "id": "active/delegating::TIMEOUT#0",
+      "owner_state": "delegating",
+      "owner_state_id": "active/delegating",
+      "trigger": "TIMEOUT",
+      "kind": "choice",
+      "target": "working",
+      "target_state_id": "active/working",
+      "action": null,
+      "guard": "areAllSubagentsDone(me.subagentBlocks)",
+      "branches": [
+        {
+          "guard": "areAllSubagentsDone(me.subagentBlocks)",
+          "target": "working",
+          "target_state_id": "active/working",
+          "action": null,
+          "kind": "external",
+          "is_else": false
+        },
+        {
+          "guard": null,
+          "target": null,
+          "target_state_id": null,
+          "action": "// 监控subagents进程的执行状态\n// 对活动的进程进行动态超时管理",
+          "kind": "internal",
+          "is_else": true
+        }
+      ]
+    },
+    {
+      "id": "active/working::BEFORE_AGENT_START#0",
+      "owner_state": "working",
+      "owner_state_id": "active/working",
+      "trigger": "BEFORE_AGENT_START",
+      "kind": "internal",
+      "target": null,
+      "target_state_id": null,
+      "action": "// { _me.piOriginalSysPrompts + _me.agentPrompts + WORKING加强提示词 }",
+      "guard": null
+    },
+    {
+      "id": "active/working::AGENT_END#1",
+      "owner_state": "working",
+      "owner_state_id": "active/working",
+      "trigger": "AGENT_END",
+      "kind": "external",
+      "target": "idle",
+      "target_state_id": "active/idle",
+      "action": "// 单轮工作结束，后续循环工作流可在此触发（当前直接回到idle，等待用户触发）",
+      "guard": null
+    }
+  ],
+  "diagnostics": [],
+  "is_reliable": true,
+  "state_count": 7,
+  "transition_count": 11
+}

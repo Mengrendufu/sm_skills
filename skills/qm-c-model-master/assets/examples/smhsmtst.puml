@@ -1,0 +1,50 @@
+@startuml
+
+[*] --> s2 / printf("top-INIT.\n");
+
+state s {
+  [*] --> s11 / printf("s-INIT.\n");
+  entry: printf("s-ENTRY.\n");
+  exit: printf("s-EXIT.\n");
+  s --> s11: E / printf("s1-E.\n");
+  state s1 {
+    [*] --> s11 / printf("s1-INIT.");
+    entry: printf("s1-ENTRY.\n");
+    exit: printf("s1-EXIT.\n");
+    s1 --> s11: B / printf("s1-B.\n");
+    s1 --> s1: A / printf("s1-A.\n");
+    s1 --> s211: F / printf("s1-F.\n");
+    s1 --> s2: C / printf("s1-C.\n");
+    s1 --> s: D [!me->foo] / me->foo = 1U;
+printf("s1-D.\n");
+    state s11
+      entry: printf("s11-ENTRY.\n");
+      exit: printf("s11-EXIT.\n");
+      s11 --> s: H / printf("s11-H.\n");
+      s11 --> s1: D [me->foo] / me->foo = 0U;
+printf("s11-D.\n");
+      s11 --> s211: G / printf("s11-G.\n");
+  }
+  state s2 {
+    [*] --> s211 / printf("s2-INIT.\n");
+    entry: printf("s2-ENTRY.\n");
+    exit: printf("s2-EXIT.\n");
+    s2 --> s1: C / printf("s2-C.\n");
+    s2 --> s11: F / printf("s2-F.\n");
+    state s21 {
+      [*] --> s211 / printf("s21-INIT.\n");
+      entry: printf("s21-ENTRY.\n");
+      exit: printf("s21-EXIT.\n");
+      s21 --> s1: G / printf("s21-G.\n");
+      s21 --> s21: A / printf("s21-A.\n");
+      s21 --> s211: B / printf("s21-B.\n");
+      state s211
+        entry: printf("s211-ENTRY.\n");
+        exit: printf("s211-EXIT.\n");
+        s211 --> s: H / printf("s211-H.\n");
+        s211 --> s21: D / printf("s211-D.\n");
+    }
+  }
+}
+
+@enduml

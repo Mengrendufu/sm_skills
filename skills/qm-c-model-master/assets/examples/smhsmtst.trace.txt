@@ -1,0 +1,143 @@
+Machine: SmHsmTst
+Reliable: yes
+
+Diagnostics:
+- none
+
+Default Init Trace:
+- TOP_INIT -> s/s2
+- effect: printf("top-INIT.\n");
+- enter: s
+- enter: s/s2
+  - init: s/s2 -> s/s2/s21/s211
+  - effect: printf("s2-INIT.\n");
+  - enter: s/s2/s21
+  - enter: s/s2/s21/s211
+
+External Transition Traces:
+- s::E#1: s --E--> s/s1/s11
+  - effect: printf("s1-E.\n");
+  - enter: s/s1
+  - enter: s/s1/s11
+- s/s1::B#1: s/s1 --B--> s/s1/s11
+  - effect: printf("s1-B.\n");
+  - enter: s/s1/s11
+- s/s1::A#2: s/s1 --A--> s/s1
+  - effect: printf("s1-A.\n");
+  - init: s/s1 -> s/s1/s11
+  - effect: printf("s1-INIT.");
+  - enter: s/s1/s11
+- s/s1::F#3: s/s1 --F--> s/s2/s21/s211
+  - exit: s/s1
+  - effect: printf("s1-F.\n");
+  - enter: s/s2
+  - enter: s/s2/s21
+  - enter: s/s2/s21/s211
+- s/s1::C#4: s/s1 --C--> s/s2
+  - exit: s/s1
+  - effect: printf("s1-C.\n");
+  - enter: s/s2
+  - init: s/s2 -> s/s2/s21/s211
+  - effect: printf("s2-INIT.\n");
+  - enter: s/s2/s21
+  - enter: s/s2/s21/s211
+- s/s1::D#5: s/s1 --D [!me->foo]--> s
+  - exit: s/s1
+  - effect: me->foo = 1U;
+printf("s1-D.\n");
+  - init: s -> s/s1/s11
+  - effect: printf("s-INIT.\n");
+  - enter: s/s1
+  - enter: s/s1/s11
+- s/s1/s11::H#0: s/s1/s11 --H--> s
+  - exit: s/s1/s11
+  - exit: s/s1
+  - effect: printf("s11-H.\n");
+  - init: s -> s/s1/s11
+  - effect: printf("s-INIT.\n");
+  - enter: s/s1
+  - enter: s/s1/s11
+- s/s1/s11::D#1: s/s1/s11 --D [me->foo]--> s/s1
+  - exit: s/s1/s11
+  - effect: me->foo = 0U;
+printf("s11-D.\n");
+  - init: s/s1 -> s/s1/s11
+  - effect: printf("s1-INIT.");
+  - enter: s/s1/s11
+- s/s1/s11::G#2: s/s1/s11 --G--> s/s2/s21/s211
+  - exit: s/s1/s11
+  - exit: s/s1
+  - effect: printf("s11-G.\n");
+  - enter: s/s2
+  - enter: s/s2/s21
+  - enter: s/s2/s21/s211
+- s/s2::C#1: s/s2 --C--> s/s1
+  - exit: s/s2
+  - effect: printf("s2-C.\n");
+  - enter: s/s1
+  - init: s/s1 -> s/s1/s11
+  - effect: printf("s1-INIT.");
+  - enter: s/s1/s11
+- s/s2::F#2: s/s2 --F--> s/s1/s11
+  - exit: s/s2
+  - effect: printf("s2-F.\n");
+  - enter: s/s1
+  - enter: s/s1/s11
+- s/s2/s21::G#0: s/s2/s21 --G--> s/s1
+  - exit: s/s2/s21
+  - exit: s/s2
+  - effect: printf("s21-G.\n");
+  - enter: s/s1
+  - init: s/s1 -> s/s1/s11
+  - effect: printf("s1-INIT.");
+  - enter: s/s1/s11
+- s/s2/s21::A#1: s/s2/s21 --A--> s/s2/s21
+  - effect: printf("s21-A.\n");
+  - init: s/s2/s21 -> s/s2/s21/s211
+  - effect: printf("s21-INIT.\n");
+  - enter: s/s2/s21/s211
+- s/s2/s21::B#2: s/s2/s21 --B--> s/s2/s21/s211
+  - effect: printf("s21-B.\n");
+  - enter: s/s2/s21/s211
+- s/s2/s21/s211::H#0: s/s2/s21/s211 --H--> s
+  - exit: s/s2/s21/s211
+  - exit: s/s2/s21
+  - exit: s/s2
+  - effect: printf("s211-H.\n");
+  - init: s -> s/s1/s11
+  - effect: printf("s-INIT.\n");
+  - enter: s/s1
+  - enter: s/s1/s11
+- s/s2/s21/s211::D#1: s/s2/s21/s211 --D--> s/s2/s21
+  - exit: s/s2/s21/s211
+  - effect: printf("s211-D.\n");
+  - init: s/s2/s21 -> s/s2/s21/s211
+  - effect: printf("s21-INIT.\n");
+  - enter: s/s2/s21/s211
+
+Handled Event Ownership:
+- s
+  - I: owned here as choice [s::I#0]
+  - E: owned here as external [s::E#1]
+- s/s1
+  - I: owned here as internal [s/s1::I#0]
+  - B: owned here as external [s/s1::B#1]
+  - A: owned here as external [s/s1::A#2]
+  - F: owned here as external [s/s1::F#3]
+  - C: owned here as external [s/s1::C#4]
+  - D: owned here as choice [s/s1::D#5]
+- s/s1/s11
+  - H: owned here as external [s/s1/s11::H#0]
+  - D: owned here as choice [s/s1/s11::D#1]
+  - G: owned here as external [s/s1/s11::G#2]
+- s/s2
+  - I: owned here as choice [s/s2::I#0]
+  - C: owned here as external [s/s2::C#1]
+  - F: owned here as external [s/s2::F#2]
+- s/s2/s21
+  - G: owned here as external [s/s2/s21::G#0]
+  - A: owned here as external [s/s2/s21::A#1]
+  - B: owned here as external [s/s2/s21::B#2]
+- s/s2/s21/s211
+  - H: owned here as external [s/s2/s21/s211::H#0]
+  - D: owned here as external [s/s2/s21/s211::D#1]

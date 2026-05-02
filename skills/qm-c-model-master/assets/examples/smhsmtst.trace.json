@@ -1,0 +1,1040 @@
+{
+  "machine_name": "SmHsmTst",
+  "is_reliable": true,
+  "diagnostics": [],
+  "default_init_trace": {
+    "target_state_id": "s/s2",
+    "steps": [
+      {
+        "phase": "top_init",
+        "state_id": null,
+        "source_state_id": "TOP",
+        "target_state_id": "s/s2",
+        "code": null
+      },
+      {
+        "phase": "effect",
+        "state_id": null,
+        "source_state_id": null,
+        "target_state_id": null,
+        "code": "printf(\"top-INIT.\\n\");"
+      },
+      {
+        "phase": "enter",
+        "state_id": "s",
+        "source_state_id": null,
+        "target_state_id": null,
+        "code": null
+      },
+      {
+        "phase": "enter",
+        "state_id": "s/s2",
+        "source_state_id": null,
+        "target_state_id": null,
+        "code": null
+      },
+      {
+        "phase": "init",
+        "state_id": null,
+        "source_state_id": "s/s2",
+        "target_state_id": "s/s2/s21/s211",
+        "code": null
+      },
+      {
+        "phase": "effect",
+        "state_id": null,
+        "source_state_id": null,
+        "target_state_id": null,
+        "code": "printf(\"s2-INIT.\\n\");"
+      },
+      {
+        "phase": "enter",
+        "state_id": "s/s2/s21",
+        "source_state_id": null,
+        "target_state_id": null,
+        "code": null
+      },
+      {
+        "phase": "enter",
+        "state_id": "s/s2/s21/s211",
+        "source_state_id": null,
+        "target_state_id": null,
+        "code": null
+      }
+    ]
+  },
+  "external_transition_traces": [
+    {
+      "transition_id": "s::E#1",
+      "source_state_id": "s",
+      "trigger": "E",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s/s1/s11",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s",
+          "target_state_id": "s/s1/s11",
+          "code": "s::E#1: s --E--> s/s1/s11"
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s1-E.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1/s11",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s1::B#1",
+      "source_state_id": "s/s1",
+      "trigger": "B",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s/s1/s11",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s1",
+          "target_state_id": "s/s1/s11",
+          "code": "s/s1::B#1: s/s1 --B--> s/s1/s11"
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s1-B.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1/s11",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s1::A#2",
+      "source_state_id": "s/s1",
+      "trigger": "A",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s/s1",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s1",
+          "target_state_id": "s/s1",
+          "code": "s/s1::A#2: s/s1 --A--> s/s1"
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s1-A.\\n\");"
+        },
+        {
+          "phase": "init",
+          "state_id": null,
+          "source_state_id": "s/s1",
+          "target_state_id": "s/s1/s11",
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s1-INIT.\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1/s11",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s1::F#3",
+      "source_state_id": "s/s1",
+      "trigger": "F",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s/s2/s21/s211",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s1",
+          "target_state_id": "s/s2/s21/s211",
+          "code": "s/s1::F#3: s/s1 --F--> s/s2/s21/s211"
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s1",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s1-F.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s2",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s2/s21",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s2/s21/s211",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s1::C#4",
+      "source_state_id": "s/s1",
+      "trigger": "C",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s/s2",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s1",
+          "target_state_id": "s/s2",
+          "code": "s/s1::C#4: s/s1 --C--> s/s2"
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s1",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s1-C.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s2",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "init",
+          "state_id": null,
+          "source_state_id": "s/s2",
+          "target_state_id": "s/s2/s21/s211",
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s2-INIT.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s2/s21",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s2/s21/s211",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s1::D#5",
+      "source_state_id": "s/s1",
+      "trigger": "D",
+      "guard": "!me->foo",
+      "is_else": false,
+      "target_state_id": "s",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s1",
+          "target_state_id": "s",
+          "code": "s/s1::D#5: s/s1 --D [!me->foo]--> s"
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s1",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "me->foo = 1U;\nprintf(\"s1-D.\\n\");"
+        },
+        {
+          "phase": "init",
+          "state_id": null,
+          "source_state_id": "s",
+          "target_state_id": "s/s1/s11",
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s-INIT.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1/s11",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s1/s11::H#0",
+      "source_state_id": "s/s1/s11",
+      "trigger": "H",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s1/s11",
+          "target_state_id": "s",
+          "code": "s/s1/s11::H#0: s/s1/s11 --H--> s"
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s1/s11",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s1",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s11-H.\\n\");"
+        },
+        {
+          "phase": "init",
+          "state_id": null,
+          "source_state_id": "s",
+          "target_state_id": "s/s1/s11",
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s-INIT.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1/s11",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s1/s11::D#1",
+      "source_state_id": "s/s1/s11",
+      "trigger": "D",
+      "guard": "me->foo",
+      "is_else": false,
+      "target_state_id": "s/s1",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s1/s11",
+          "target_state_id": "s/s1",
+          "code": "s/s1/s11::D#1: s/s1/s11 --D [me->foo]--> s/s1"
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s1/s11",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "me->foo = 0U;\nprintf(\"s11-D.\\n\");"
+        },
+        {
+          "phase": "init",
+          "state_id": null,
+          "source_state_id": "s/s1",
+          "target_state_id": "s/s1/s11",
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s1-INIT.\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1/s11",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s1/s11::G#2",
+      "source_state_id": "s/s1/s11",
+      "trigger": "G",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s/s2/s21/s211",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s1/s11",
+          "target_state_id": "s/s2/s21/s211",
+          "code": "s/s1/s11::G#2: s/s1/s11 --G--> s/s2/s21/s211"
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s1/s11",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s1",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s11-G.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s2",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s2/s21",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s2/s21/s211",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s2::C#1",
+      "source_state_id": "s/s2",
+      "trigger": "C",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s/s1",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s2",
+          "target_state_id": "s/s1",
+          "code": "s/s2::C#1: s/s2 --C--> s/s1"
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s2",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s2-C.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "init",
+          "state_id": null,
+          "source_state_id": "s/s1",
+          "target_state_id": "s/s1/s11",
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s1-INIT.\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1/s11",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s2::F#2",
+      "source_state_id": "s/s2",
+      "trigger": "F",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s/s1/s11",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s2",
+          "target_state_id": "s/s1/s11",
+          "code": "s/s2::F#2: s/s2 --F--> s/s1/s11"
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s2",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s2-F.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1/s11",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s2/s21::G#0",
+      "source_state_id": "s/s2/s21",
+      "trigger": "G",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s/s1",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s2/s21",
+          "target_state_id": "s/s1",
+          "code": "s/s2/s21::G#0: s/s2/s21 --G--> s/s1"
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s2/s21",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s2",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s21-G.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "init",
+          "state_id": null,
+          "source_state_id": "s/s1",
+          "target_state_id": "s/s1/s11",
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s1-INIT.\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1/s11",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s2/s21::A#1",
+      "source_state_id": "s/s2/s21",
+      "trigger": "A",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s/s2/s21",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s2/s21",
+          "target_state_id": "s/s2/s21",
+          "code": "s/s2/s21::A#1: s/s2/s21 --A--> s/s2/s21"
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s21-A.\\n\");"
+        },
+        {
+          "phase": "init",
+          "state_id": null,
+          "source_state_id": "s/s2/s21",
+          "target_state_id": "s/s2/s21/s211",
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s21-INIT.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s2/s21/s211",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s2/s21::B#2",
+      "source_state_id": "s/s2/s21",
+      "trigger": "B",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s/s2/s21/s211",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s2/s21",
+          "target_state_id": "s/s2/s21/s211",
+          "code": "s/s2/s21::B#2: s/s2/s21 --B--> s/s2/s21/s211"
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s21-B.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s2/s21/s211",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s2/s21/s211::H#0",
+      "source_state_id": "s/s2/s21/s211",
+      "trigger": "H",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s2/s21/s211",
+          "target_state_id": "s",
+          "code": "s/s2/s21/s211::H#0: s/s2/s21/s211 --H--> s"
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s2/s21/s211",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s2/s21",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s2",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s211-H.\\n\");"
+        },
+        {
+          "phase": "init",
+          "state_id": null,
+          "source_state_id": "s",
+          "target_state_id": "s/s1/s11",
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s-INIT.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s1/s11",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "s/s2/s21/s211::D#1",
+      "source_state_id": "s/s2/s21/s211",
+      "trigger": "D",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "s/s2/s21",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "s/s2/s21/s211",
+          "target_state_id": "s/s2/s21",
+          "code": "s/s2/s21/s211::D#1: s/s2/s21/s211 --D--> s/s2/s21"
+        },
+        {
+          "phase": "exit",
+          "state_id": "s/s2/s21/s211",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s211-D.\\n\");"
+        },
+        {
+          "phase": "init",
+          "state_id": null,
+          "source_state_id": "s/s2/s21",
+          "target_state_id": "s/s2/s21/s211",
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "printf(\"s21-INIT.\\n\");"
+        },
+        {
+          "phase": "enter",
+          "state_id": "s/s2/s21/s211",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    }
+  ],
+  "handled_event_ownership": [
+    {
+      "state_id": "s",
+      "owned": [
+        {
+          "transition_id": "s::I#0",
+          "trigger": "I",
+          "kind": "choice"
+        },
+        {
+          "transition_id": "s::E#1",
+          "trigger": "E",
+          "kind": "external"
+        }
+      ],
+      "delegated": []
+    },
+    {
+      "state_id": "s/s1",
+      "owned": [
+        {
+          "transition_id": "s/s1::I#0",
+          "trigger": "I",
+          "kind": "internal"
+        },
+        {
+          "transition_id": "s/s1::B#1",
+          "trigger": "B",
+          "kind": "external"
+        },
+        {
+          "transition_id": "s/s1::A#2",
+          "trigger": "A",
+          "kind": "external"
+        },
+        {
+          "transition_id": "s/s1::F#3",
+          "trigger": "F",
+          "kind": "external"
+        },
+        {
+          "transition_id": "s/s1::C#4",
+          "trigger": "C",
+          "kind": "external"
+        },
+        {
+          "transition_id": "s/s1::D#5",
+          "trigger": "D",
+          "kind": "choice"
+        }
+      ],
+      "delegated": []
+    },
+    {
+      "state_id": "s/s1/s11",
+      "owned": [
+        {
+          "transition_id": "s/s1/s11::H#0",
+          "trigger": "H",
+          "kind": "external"
+        },
+        {
+          "transition_id": "s/s1/s11::D#1",
+          "trigger": "D",
+          "kind": "choice"
+        },
+        {
+          "transition_id": "s/s1/s11::G#2",
+          "trigger": "G",
+          "kind": "external"
+        }
+      ],
+      "delegated": []
+    },
+    {
+      "state_id": "s/s2",
+      "owned": [
+        {
+          "transition_id": "s/s2::I#0",
+          "trigger": "I",
+          "kind": "choice"
+        },
+        {
+          "transition_id": "s/s2::C#1",
+          "trigger": "C",
+          "kind": "external"
+        },
+        {
+          "transition_id": "s/s2::F#2",
+          "trigger": "F",
+          "kind": "external"
+        }
+      ],
+      "delegated": []
+    },
+    {
+      "state_id": "s/s2/s21",
+      "owned": [
+        {
+          "transition_id": "s/s2/s21::G#0",
+          "trigger": "G",
+          "kind": "external"
+        },
+        {
+          "transition_id": "s/s2/s21::A#1",
+          "trigger": "A",
+          "kind": "external"
+        },
+        {
+          "transition_id": "s/s2/s21::B#2",
+          "trigger": "B",
+          "kind": "external"
+        }
+      ],
+      "delegated": []
+    },
+    {
+      "state_id": "s/s2/s21/s211",
+      "owned": [
+        {
+          "transition_id": "s/s2/s21/s211::H#0",
+          "trigger": "H",
+          "kind": "external"
+        },
+        {
+          "transition_id": "s/s2/s21/s211::D#1",
+          "trigger": "D",
+          "kind": "external"
+        }
+      ],
+      "delegated": []
+    }
+  ]
+}

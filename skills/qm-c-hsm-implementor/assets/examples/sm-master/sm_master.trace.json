@@ -1,0 +1,370 @@
+{
+  "machine_name": "SM_Master",
+  "is_reliable": true,
+  "diagnostics": [],
+  "default_init_trace": {
+    "target_state_id": "inactive",
+    "steps": [
+      {
+        "phase": "top_init",
+        "state_id": null,
+        "source_state_id": "TOP",
+        "target_state_id": "inactive",
+        "code": null
+      },
+      {
+        "phase": "enter",
+        "state_id": "inactive",
+        "source_state_id": null,
+        "target_state_id": null,
+        "code": null
+      }
+    ]
+  },
+  "external_transition_traces": [
+    {
+      "transition_id": "inactive::USER_SLASH_COMMAND_MASTER#0",
+      "source_state_id": "inactive",
+      "trigger": "USER_SLASH_COMMAND_MASTER",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "active",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "inactive",
+          "target_state_id": "active",
+          "code": "inactive::USER_SLASH_COMMAND_MASTER#0: inactive --USER_SLASH_COMMAND_MASTER--> active"
+        },
+        {
+          "phase": "exit",
+          "state_id": "inactive",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "active",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "init",
+          "state_id": null,
+          "source_state_id": "active",
+          "target_state_id": "active/idle",
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "active/idle",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "active::USER_SLASH_COMMAND_MASTER#0",
+      "source_state_id": "active",
+      "trigger": "USER_SLASH_COMMAND_MASTER",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "inactive",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "active",
+          "target_state_id": "inactive",
+          "code": "active::USER_SLASH_COMMAND_MASTER#0: active --USER_SLASH_COMMAND_MASTER--> inactive"
+        },
+        {
+          "phase": "exit",
+          "state_id": "active",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "inactive",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "active/idle::USER_INPUT_PROMPTS#0",
+      "source_state_id": "active/idle",
+      "trigger": "USER_INPUT_PROMPTS",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "active/routing",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "active/idle",
+          "target_state_id": "active/routing",
+          "code": "active/idle::USER_INPUT_PROMPTS#0: active/idle --USER_INPUT_PROMPTS--> active/routing"
+        },
+        {
+          "phase": "exit",
+          "state_id": "active/idle",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "event.inputEvtResult = { action: \"continue\" };"
+        },
+        {
+          "phase": "enter",
+          "state_id": "active/routing",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "active/routing::TOOL_RESULT#2",
+      "source_state_id": "active/routing",
+      "trigger": "TOOL_RESULT",
+      "guard": "subagentBlockFormatValid()",
+      "is_else": false,
+      "target_state_id": "active/routing/successful",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "active/routing",
+          "target_state_id": "active/routing/successful",
+          "code": "active/routing::TOOL_RESULT#2: active/routing --TOOL_RESULT [subagentBlockFormatValid()]--> active/routing/successful"
+        },
+        {
+          "phase": "enter",
+          "state_id": "active/routing/successful",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "active/routing/successful::AGENT_END#0",
+      "source_state_id": "active/routing/successful",
+      "trigger": "AGENT_END",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "active/delegating",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "active/routing/successful",
+          "target_state_id": "active/delegating",
+          "code": "active/routing/successful::AGENT_END#0: active/routing/successful --AGENT_END--> active/delegating"
+        },
+        {
+          "phase": "exit",
+          "state_id": "active/routing/successful",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "exit",
+          "state_id": "active/routing",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "active/delegating",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "active/delegating::TIMEOUT#0",
+      "source_state_id": "active/delegating",
+      "trigger": "TIMEOUT",
+      "guard": "areAllSubagentsDone(me.subagentBlocks)",
+      "is_else": false,
+      "target_state_id": "active/working",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "active/delegating",
+          "target_state_id": "active/working",
+          "code": "active/delegating::TIMEOUT#0: active/delegating --TIMEOUT [areAllSubagentsDone(me.subagentBlocks)]--> active/working"
+        },
+        {
+          "phase": "exit",
+          "state_id": "active/delegating",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "enter",
+          "state_id": "active/working",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    },
+    {
+      "transition_id": "active/working::AGENT_END#1",
+      "source_state_id": "active/working",
+      "trigger": "AGENT_END",
+      "guard": null,
+      "is_else": false,
+      "target_state_id": "active/idle",
+      "steps": [
+        {
+          "phase": "transition",
+          "state_id": null,
+          "source_state_id": "active/working",
+          "target_state_id": "active/idle",
+          "code": "active/working::AGENT_END#1: active/working --AGENT_END--> active/idle"
+        },
+        {
+          "phase": "exit",
+          "state_id": "active/working",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        },
+        {
+          "phase": "effect",
+          "state_id": null,
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": "// 单轮工作结束，后续循环工作流可在此触发（当前直接回到idle，等待用户触发）"
+        },
+        {
+          "phase": "enter",
+          "state_id": "active/idle",
+          "source_state_id": null,
+          "target_state_id": null,
+          "code": null
+        }
+      ]
+    }
+  ],
+  "handled_event_ownership": [
+    {
+      "state_id": "inactive",
+      "owned": [
+        {
+          "transition_id": "inactive::USER_SLASH_COMMAND_MASTER#0",
+          "trigger": "USER_SLASH_COMMAND_MASTER",
+          "kind": "external"
+        }
+      ],
+      "delegated": []
+    },
+    {
+      "state_id": "active",
+      "owned": [
+        {
+          "transition_id": "active::USER_SLASH_COMMAND_MASTER#0",
+          "trigger": "USER_SLASH_COMMAND_MASTER",
+          "kind": "external"
+        },
+        {
+          "transition_id": "active::USER_INPUT_PROMPTS#1",
+          "trigger": "USER_INPUT_PROMPTS",
+          "kind": "internal"
+        }
+      ],
+      "delegated": []
+    },
+    {
+      "state_id": "active/idle",
+      "owned": [
+        {
+          "transition_id": "active/idle::USER_INPUT_PROMPTS#0",
+          "trigger": "USER_INPUT_PROMPTS",
+          "kind": "external"
+        }
+      ],
+      "delegated": []
+    },
+    {
+      "state_id": "active/routing",
+      "owned": [
+        {
+          "transition_id": "active/routing::BEFORE_AGENT_START#0",
+          "trigger": "BEFORE_AGENT_START",
+          "kind": "internal"
+        },
+        {
+          "transition_id": "active/routing::TOOL_CALL#1",
+          "trigger": "TOOL_CALL",
+          "kind": "choice"
+        },
+        {
+          "transition_id": "active/routing::TOOL_RESULT#2",
+          "trigger": "TOOL_RESULT",
+          "kind": "choice"
+        }
+      ],
+      "delegated": []
+    },
+    {
+      "state_id": "active/routing/successful",
+      "owned": [
+        {
+          "transition_id": "active/routing/successful::AGENT_END#0",
+          "trigger": "AGENT_END",
+          "kind": "external"
+        }
+      ],
+      "delegated": []
+    },
+    {
+      "state_id": "active/delegating",
+      "owned": [
+        {
+          "transition_id": "active/delegating::TIMEOUT#0",
+          "trigger": "TIMEOUT",
+          "kind": "choice"
+        }
+      ],
+      "delegated": []
+    },
+    {
+      "state_id": "active/working",
+      "owned": [
+        {
+          "transition_id": "active/working::BEFORE_AGENT_START#0",
+          "trigger": "BEFORE_AGENT_START",
+          "kind": "internal"
+        },
+        {
+          "transition_id": "active/working::AGENT_END#1",
+          "trigger": "AGENT_END",
+          "kind": "external"
+        }
+      ],
+      "delegated": []
+    }
+  ]
+}

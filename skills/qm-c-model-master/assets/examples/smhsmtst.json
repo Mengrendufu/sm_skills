@@ -1,0 +1,679 @@
+{
+  "machine_name": "SmHsmTst",
+  "top_initial": {
+    "guard": null,
+    "target": "s2",
+    "target_state_id": "s/s2",
+    "action": "printf(\"top-INIT.\\n\");",
+    "kind": "external",
+    "is_else": false
+  },
+  "states": [
+    {
+      "id": "s",
+      "name": "s",
+      "path": "s",
+      "parent": null,
+      "parent_id": null,
+      "entry": "printf(\"s-ENTRY.\\n\");",
+      "exit": "printf(\"s-EXIT.\\n\");",
+      "initial": {
+        "target": "s11",
+        "target_state_id": "s/s1/s11",
+        "action": "printf(\"s-INIT.\\n\");",
+        "kind": "external"
+      },
+      "transitions": [
+        {
+          "id": "s::I#0",
+          "owner_state": "s",
+          "owner_state_id": "s",
+          "trigger": "I",
+          "kind": "choice",
+          "target": null,
+          "target_state_id": null,
+          "action": "me->foo = 0U;\nprintf(\"s-I.\\n\");",
+          "guard": "me->foo",
+          "branches": [
+            {
+              "guard": "me->foo",
+              "target": null,
+              "target_state_id": null,
+              "action": "me->foo = 0U;\nprintf(\"s-I.\\n\");",
+              "kind": "internal",
+              "is_else": false
+            },
+            {
+              "guard": null,
+              "target": null,
+              "target_state_id": null,
+              "action": null,
+              "kind": "unhandled",
+              "is_else": true
+            }
+          ]
+        },
+        {
+          "id": "s::E#1",
+          "owner_state": "s",
+          "owner_state_id": "s",
+          "trigger": "E",
+          "kind": "external",
+          "target": "s11",
+          "target_state_id": "s/s1/s11",
+          "action": "printf(\"s1-E.\\n\");",
+          "guard": null
+        }
+      ],
+      "children": [
+        {
+          "id": "s/s1",
+          "name": "s1",
+          "path": "s/s1",
+          "parent": "s",
+          "parent_id": "s",
+          "entry": "printf(\"s1-ENTRY.\\n\");",
+          "exit": "printf(\"s1-EXIT.\\n\");",
+          "initial": {
+            "target": "s11",
+            "target_state_id": "s/s1/s11",
+            "action": "printf(\"s1-INIT.\");",
+            "kind": "external"
+          },
+          "transitions": [
+            {
+              "id": "s/s1::I#0",
+              "owner_state": "s1",
+              "owner_state_id": "s/s1",
+              "trigger": "I",
+              "kind": "internal",
+              "target": null,
+              "target_state_id": null,
+              "action": "printf(\"s1-I.\\n\");",
+              "guard": null
+            },
+            {
+              "id": "s/s1::B#1",
+              "owner_state": "s1",
+              "owner_state_id": "s/s1",
+              "trigger": "B",
+              "kind": "external",
+              "target": "s11",
+              "target_state_id": "s/s1/s11",
+              "action": "printf(\"s1-B.\\n\");",
+              "guard": null
+            },
+            {
+              "id": "s/s1::A#2",
+              "owner_state": "s1",
+              "owner_state_id": "s/s1",
+              "trigger": "A",
+              "kind": "external",
+              "target": "s1",
+              "target_state_id": "s/s1",
+              "action": "printf(\"s1-A.\\n\");",
+              "guard": null
+            },
+            {
+              "id": "s/s1::F#3",
+              "owner_state": "s1",
+              "owner_state_id": "s/s1",
+              "trigger": "F",
+              "kind": "external",
+              "target": "s211",
+              "target_state_id": "s/s2/s21/s211",
+              "action": "printf(\"s1-F.\\n\");",
+              "guard": null
+            },
+            {
+              "id": "s/s1::C#4",
+              "owner_state": "s1",
+              "owner_state_id": "s/s1",
+              "trigger": "C",
+              "kind": "external",
+              "target": "s2",
+              "target_state_id": "s/s2",
+              "action": "printf(\"s1-C.\\n\");",
+              "guard": null
+            },
+            {
+              "id": "s/s1::D#5",
+              "owner_state": "s1",
+              "owner_state_id": "s/s1",
+              "trigger": "D",
+              "kind": "choice",
+              "target": "s",
+              "target_state_id": "s",
+              "action": "me->foo = 1U;\nprintf(\"s1-D.\\n\");",
+              "guard": "!me->foo",
+              "branches": [
+                {
+                  "guard": "!me->foo",
+                  "target": "s",
+                  "target_state_id": "s",
+                  "action": "me->foo = 1U;\nprintf(\"s1-D.\\n\");",
+                  "kind": "external",
+                  "is_else": false
+                },
+                {
+                  "guard": null,
+                  "target": null,
+                  "target_state_id": null,
+                  "action": null,
+                  "kind": "unhandled",
+                  "is_else": true
+                }
+              ]
+            }
+          ],
+          "children": [
+            {
+              "id": "s/s1/s11",
+              "name": "s11",
+              "path": "s/s1/s11",
+              "parent": "s1",
+              "parent_id": "s/s1",
+              "entry": "printf(\"s11-ENTRY.\\n\");",
+              "exit": "printf(\"s11-EXIT.\\n\");",
+              "transitions": [
+                {
+                  "id": "s/s1/s11::H#0",
+                  "owner_state": "s11",
+                  "owner_state_id": "s/s1/s11",
+                  "trigger": "H",
+                  "kind": "external",
+                  "target": "s",
+                  "target_state_id": "s",
+                  "action": "printf(\"s11-H.\\n\");",
+                  "guard": null
+                },
+                {
+                  "id": "s/s1/s11::D#1",
+                  "owner_state": "s11",
+                  "owner_state_id": "s/s1/s11",
+                  "trigger": "D",
+                  "kind": "choice",
+                  "target": "s1",
+                  "target_state_id": "s/s1",
+                  "action": "me->foo = 0U;\nprintf(\"s11-D.\\n\");",
+                  "guard": "me->foo",
+                  "branches": [
+                    {
+                      "guard": "me->foo",
+                      "target": "s1",
+                      "target_state_id": "s/s1",
+                      "action": "me->foo = 0U;\nprintf(\"s11-D.\\n\");",
+                      "kind": "external",
+                      "is_else": false
+                    },
+                    {
+                      "guard": null,
+                      "target": null,
+                      "target_state_id": null,
+                      "action": null,
+                      "kind": "unhandled",
+                      "is_else": true
+                    }
+                  ]
+                },
+                {
+                  "id": "s/s1/s11::G#2",
+                  "owner_state": "s11",
+                  "owner_state_id": "s/s1/s11",
+                  "trigger": "G",
+                  "kind": "external",
+                  "target": "s211",
+                  "target_state_id": "s/s2/s21/s211",
+                  "action": "printf(\"s11-G.\\n\");",
+                  "guard": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s/s2",
+          "name": "s2",
+          "path": "s/s2",
+          "parent": "s",
+          "parent_id": "s",
+          "entry": "printf(\"s2-ENTRY.\\n\");",
+          "exit": "printf(\"s2-EXIT.\\n\");",
+          "initial": {
+            "target": "s211",
+            "target_state_id": "s/s2/s21/s211",
+            "action": "printf(\"s2-INIT.\\n\");",
+            "kind": "external"
+          },
+          "transitions": [
+            {
+              "id": "s/s2::I#0",
+              "owner_state": "s2",
+              "owner_state_id": "s/s2",
+              "trigger": "I",
+              "kind": "choice",
+              "target": null,
+              "target_state_id": null,
+              "action": "me->foo = 1U;\nprintf(\"s2-I.\\n\");",
+              "guard": "!me->foo",
+              "branches": [
+                {
+                  "guard": "!me->foo",
+                  "target": null,
+                  "target_state_id": null,
+                  "action": "me->foo = 1U;\nprintf(\"s2-I.\\n\");",
+                  "kind": "internal",
+                  "is_else": false
+                },
+                {
+                  "guard": null,
+                  "target": null,
+                  "target_state_id": null,
+                  "action": null,
+                  "kind": "unhandled",
+                  "is_else": true
+                }
+              ]
+            },
+            {
+              "id": "s/s2::C#1",
+              "owner_state": "s2",
+              "owner_state_id": "s/s2",
+              "trigger": "C",
+              "kind": "external",
+              "target": "s1",
+              "target_state_id": "s/s1",
+              "action": "printf(\"s2-C.\\n\");",
+              "guard": null
+            },
+            {
+              "id": "s/s2::F#2",
+              "owner_state": "s2",
+              "owner_state_id": "s/s2",
+              "trigger": "F",
+              "kind": "external",
+              "target": "s11",
+              "target_state_id": "s/s1/s11",
+              "action": "printf(\"s2-F.\\n\");",
+              "guard": null
+            }
+          ],
+          "children": [
+            {
+              "id": "s/s2/s21",
+              "name": "s21",
+              "path": "s/s2/s21",
+              "parent": "s2",
+              "parent_id": "s/s2",
+              "entry": "printf(\"s21-ENTRY.\\n\");",
+              "exit": "printf(\"s21-EXIT.\\n\");",
+              "initial": {
+                "target": "s211",
+                "target_state_id": "s/s2/s21/s211",
+                "action": "printf(\"s21-INIT.\\n\");",
+                "kind": "external"
+              },
+              "transitions": [
+                {
+                  "id": "s/s2/s21::G#0",
+                  "owner_state": "s21",
+                  "owner_state_id": "s/s2/s21",
+                  "trigger": "G",
+                  "kind": "external",
+                  "target": "s1",
+                  "target_state_id": "s/s1",
+                  "action": "printf(\"s21-G.\\n\");",
+                  "guard": null
+                },
+                {
+                  "id": "s/s2/s21::A#1",
+                  "owner_state": "s21",
+                  "owner_state_id": "s/s2/s21",
+                  "trigger": "A",
+                  "kind": "external",
+                  "target": "s21",
+                  "target_state_id": "s/s2/s21",
+                  "action": "printf(\"s21-A.\\n\");",
+                  "guard": null
+                },
+                {
+                  "id": "s/s2/s21::B#2",
+                  "owner_state": "s21",
+                  "owner_state_id": "s/s2/s21",
+                  "trigger": "B",
+                  "kind": "external",
+                  "target": "s211",
+                  "target_state_id": "s/s2/s21/s211",
+                  "action": "printf(\"s21-B.\\n\");",
+                  "guard": null
+                }
+              ],
+              "children": [
+                {
+                  "id": "s/s2/s21/s211",
+                  "name": "s211",
+                  "path": "s/s2/s21/s211",
+                  "parent": "s21",
+                  "parent_id": "s/s2/s21",
+                  "entry": "printf(\"s211-ENTRY.\\n\");",
+                  "exit": "printf(\"s211-EXIT.\\n\");",
+                  "transitions": [
+                    {
+                      "id": "s/s2/s21/s211::H#0",
+                      "owner_state": "s211",
+                      "owner_state_id": "s/s2/s21/s211",
+                      "trigger": "H",
+                      "kind": "external",
+                      "target": "s",
+                      "target_state_id": "s",
+                      "action": "printf(\"s211-H.\\n\");",
+                      "guard": null
+                    },
+                    {
+                      "id": "s/s2/s21/s211::D#1",
+                      "owner_state": "s211",
+                      "owner_state_id": "s/s2/s21/s211",
+                      "trigger": "D",
+                      "kind": "external",
+                      "target": "s21",
+                      "target_state_id": "s/s2/s21",
+                      "action": "printf(\"s211-D.\\n\");",
+                      "guard": null
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "id": "s::I#0",
+      "owner_state": "s",
+      "owner_state_id": "s",
+      "trigger": "I",
+      "kind": "choice",
+      "target": null,
+      "target_state_id": null,
+      "action": "me->foo = 0U;\nprintf(\"s-I.\\n\");",
+      "guard": "me->foo",
+      "branches": [
+        {
+          "guard": "me->foo",
+          "target": null,
+          "target_state_id": null,
+          "action": "me->foo = 0U;\nprintf(\"s-I.\\n\");",
+          "kind": "internal",
+          "is_else": false
+        },
+        {
+          "guard": null,
+          "target": null,
+          "target_state_id": null,
+          "action": null,
+          "kind": "unhandled",
+          "is_else": true
+        }
+      ]
+    },
+    {
+      "id": "s::E#1",
+      "owner_state": "s",
+      "owner_state_id": "s",
+      "trigger": "E",
+      "kind": "external",
+      "target": "s11",
+      "target_state_id": "s/s1/s11",
+      "action": "printf(\"s1-E.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s1::I#0",
+      "owner_state": "s1",
+      "owner_state_id": "s/s1",
+      "trigger": "I",
+      "kind": "internal",
+      "target": null,
+      "target_state_id": null,
+      "action": "printf(\"s1-I.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s1::B#1",
+      "owner_state": "s1",
+      "owner_state_id": "s/s1",
+      "trigger": "B",
+      "kind": "external",
+      "target": "s11",
+      "target_state_id": "s/s1/s11",
+      "action": "printf(\"s1-B.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s1::A#2",
+      "owner_state": "s1",
+      "owner_state_id": "s/s1",
+      "trigger": "A",
+      "kind": "external",
+      "target": "s1",
+      "target_state_id": "s/s1",
+      "action": "printf(\"s1-A.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s1::F#3",
+      "owner_state": "s1",
+      "owner_state_id": "s/s1",
+      "trigger": "F",
+      "kind": "external",
+      "target": "s211",
+      "target_state_id": "s/s2/s21/s211",
+      "action": "printf(\"s1-F.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s1::C#4",
+      "owner_state": "s1",
+      "owner_state_id": "s/s1",
+      "trigger": "C",
+      "kind": "external",
+      "target": "s2",
+      "target_state_id": "s/s2",
+      "action": "printf(\"s1-C.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s1::D#5",
+      "owner_state": "s1",
+      "owner_state_id": "s/s1",
+      "trigger": "D",
+      "kind": "choice",
+      "target": "s",
+      "target_state_id": "s",
+      "action": "me->foo = 1U;\nprintf(\"s1-D.\\n\");",
+      "guard": "!me->foo",
+      "branches": [
+        {
+          "guard": "!me->foo",
+          "target": "s",
+          "target_state_id": "s",
+          "action": "me->foo = 1U;\nprintf(\"s1-D.\\n\");",
+          "kind": "external",
+          "is_else": false
+        },
+        {
+          "guard": null,
+          "target": null,
+          "target_state_id": null,
+          "action": null,
+          "kind": "unhandled",
+          "is_else": true
+        }
+      ]
+    },
+    {
+      "id": "s/s1/s11::H#0",
+      "owner_state": "s11",
+      "owner_state_id": "s/s1/s11",
+      "trigger": "H",
+      "kind": "external",
+      "target": "s",
+      "target_state_id": "s",
+      "action": "printf(\"s11-H.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s1/s11::D#1",
+      "owner_state": "s11",
+      "owner_state_id": "s/s1/s11",
+      "trigger": "D",
+      "kind": "choice",
+      "target": "s1",
+      "target_state_id": "s/s1",
+      "action": "me->foo = 0U;\nprintf(\"s11-D.\\n\");",
+      "guard": "me->foo",
+      "branches": [
+        {
+          "guard": "me->foo",
+          "target": "s1",
+          "target_state_id": "s/s1",
+          "action": "me->foo = 0U;\nprintf(\"s11-D.\\n\");",
+          "kind": "external",
+          "is_else": false
+        },
+        {
+          "guard": null,
+          "target": null,
+          "target_state_id": null,
+          "action": null,
+          "kind": "unhandled",
+          "is_else": true
+        }
+      ]
+    },
+    {
+      "id": "s/s1/s11::G#2",
+      "owner_state": "s11",
+      "owner_state_id": "s/s1/s11",
+      "trigger": "G",
+      "kind": "external",
+      "target": "s211",
+      "target_state_id": "s/s2/s21/s211",
+      "action": "printf(\"s11-G.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s2::I#0",
+      "owner_state": "s2",
+      "owner_state_id": "s/s2",
+      "trigger": "I",
+      "kind": "choice",
+      "target": null,
+      "target_state_id": null,
+      "action": "me->foo = 1U;\nprintf(\"s2-I.\\n\");",
+      "guard": "!me->foo",
+      "branches": [
+        {
+          "guard": "!me->foo",
+          "target": null,
+          "target_state_id": null,
+          "action": "me->foo = 1U;\nprintf(\"s2-I.\\n\");",
+          "kind": "internal",
+          "is_else": false
+        },
+        {
+          "guard": null,
+          "target": null,
+          "target_state_id": null,
+          "action": null,
+          "kind": "unhandled",
+          "is_else": true
+        }
+      ]
+    },
+    {
+      "id": "s/s2::C#1",
+      "owner_state": "s2",
+      "owner_state_id": "s/s2",
+      "trigger": "C",
+      "kind": "external",
+      "target": "s1",
+      "target_state_id": "s/s1",
+      "action": "printf(\"s2-C.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s2::F#2",
+      "owner_state": "s2",
+      "owner_state_id": "s/s2",
+      "trigger": "F",
+      "kind": "external",
+      "target": "s11",
+      "target_state_id": "s/s1/s11",
+      "action": "printf(\"s2-F.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s2/s21::G#0",
+      "owner_state": "s21",
+      "owner_state_id": "s/s2/s21",
+      "trigger": "G",
+      "kind": "external",
+      "target": "s1",
+      "target_state_id": "s/s1",
+      "action": "printf(\"s21-G.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s2/s21::A#1",
+      "owner_state": "s21",
+      "owner_state_id": "s/s2/s21",
+      "trigger": "A",
+      "kind": "external",
+      "target": "s21",
+      "target_state_id": "s/s2/s21",
+      "action": "printf(\"s21-A.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s2/s21::B#2",
+      "owner_state": "s21",
+      "owner_state_id": "s/s2/s21",
+      "trigger": "B",
+      "kind": "external",
+      "target": "s211",
+      "target_state_id": "s/s2/s21/s211",
+      "action": "printf(\"s21-B.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s2/s21/s211::H#0",
+      "owner_state": "s211",
+      "owner_state_id": "s/s2/s21/s211",
+      "trigger": "H",
+      "kind": "external",
+      "target": "s",
+      "target_state_id": "s",
+      "action": "printf(\"s211-H.\\n\");",
+      "guard": null
+    },
+    {
+      "id": "s/s2/s21/s211::D#1",
+      "owner_state": "s211",
+      "owner_state_id": "s/s2/s21/s211",
+      "trigger": "D",
+      "kind": "external",
+      "target": "s21",
+      "target_state_id": "s/s2/s21",
+      "action": "printf(\"s211-D.\\n\");",
+      "guard": null
+    }
+  ],
+  "diagnostics": [],
+  "is_reliable": true,
+  "state_count": 6,
+  "transition_count": 19
+}
