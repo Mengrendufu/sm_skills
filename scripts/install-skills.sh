@@ -71,6 +71,10 @@ for skill_name in "${skills[@]}"; do
     fi
 
     mkdir -p -- "$target_dir"
-    rsync -a --delete -- "$source_dir/" "$target_dir/"
+    rsync -a --delete \
+        --exclude='__pycache__/' \
+        --exclude='*.pyc' \
+        --exclude='*.pyo' \
+        -- "$source_dir/" "$target_dir/"
     printf 'Installed %s -> %s\n' "$skill_name" "$target_dir"
 done

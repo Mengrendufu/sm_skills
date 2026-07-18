@@ -83,7 +83,11 @@ while IFS= read -r -d '' skill_dir; do
             if [[ ! -x "$script_file" ]]; then
                 report_error "${script_file#"$REPO_ROOT/"} is not executable"
             fi
-        done < <(find "$skill_dir/scripts" -type f -print0)
+        done < <(find "$skill_dir/scripts" -type f \
+            ! -path '*/__pycache__/*' \
+            ! -name '*.pyc' \
+            ! -name '*.pyo' \
+            -print0)
     fi
 
     if [[ -d "$skill_dir/agents" ]]; then
