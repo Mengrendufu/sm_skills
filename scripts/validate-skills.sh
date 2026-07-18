@@ -63,6 +63,9 @@ while IFS= read -r -d '' skill_dir; do
     fi
 
     if grep -RInIi -E \
+        --exclude-dir='__pycache__' \
+        --exclude='*.pyc' \
+        --exclude='*.pyo' \
         'opencode|codex|claude|\.config/opencode|\.codex|openai\.yaml|disable-model-invocation|CLAUDE_SKILL_DIR' \
         "$skill_dir" >"${TMPDIR:-/tmp}/portable-skill-runtime-match.$$"; then
         report_error "$skill_name contains agent-runtime-specific content"

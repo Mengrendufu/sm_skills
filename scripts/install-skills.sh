@@ -46,8 +46,6 @@ fi
     exit 1
 }
 
-mkdir -p -- "$TARGET_ROOT"
-
 for skill_name in "${skills[@]}"; do
     if [[ ! "$skill_name" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
         printf 'ERROR: invalid skill name: %s\n' "$skill_name" >&2
@@ -69,9 +67,16 @@ for skill_name in "${skills[@]}"; do
         printf 'ERROR: target skill path is not a directory: %s\n' "$target_dir" >&2
         exit 1
     fi
+done
+
+mkdir -p -- "$TARGET_ROOT"
+
+for skill_name in "${skills[@]}"; do
+    source_dir="$SOURCE_ROOT/$skill_name"
+    target_dir="$TARGET_ROOT/$skill_name"
 
     mkdir -p -- "$target_dir"
-    rsync -a --delete \
+    rsync -a --delete --delete-excluded \
         --exclude='__pycache__/' \
         --exclude='*.pyc' \
         --exclude='*.pyo' \
