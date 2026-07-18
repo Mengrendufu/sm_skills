@@ -18,7 +18,7 @@ Before any acting:
 **Actions and responses must be supported by fresh evidence.**
 
 During working:
-- Spontaneously and proactively dispatch subagents (explorer/gpt-5.4-mini/medium) to carry out evidence search tasks.
+- Dispatch subagents for independent evidence searches, disjoint edits, or risk verification when the active runtime supports them.
 - Do not work with ambiguous context. If the evidence is insufficient, stop and ask.
 - Read before making changes; avoid unnecessary cleanup; follow the existing patterns when making changes.
 - Explicitly link supporting evidence in the response.
