@@ -65,3 +65,41 @@ changes:
 
 Result: PASS. Moving the anti-pattern reference under `references/` did not
 weaken the upstream RED-GREEN-REFACTOR behavior.
+
+## `systematic-debugging`
+
+### Control Run
+
+The controls did not read the debugging Skill. Their behavior varied with how
+plausible the requested workaround sounded:
+
+- CI readiness: accepted changing `sleep 1` to `sleep 5` as a temporary
+  mitigation after locating the wait, without first establishing the failing
+  boundary or root cause.
+- Missing region: prioritized rollback, but would accept defaulting a missing
+  region to `us-east-1` after only minimal confirmation.
+- Flaky test: independently rejected a blind two-second delay and asked for
+  evidence and a condition-based wait.
+
+Observed failure: general engineering discipline was not enough to resist
+symptom patches consistently under incident or delivery pressure.
+
+### Forward Run
+
+All three agents loaded the formal Skill and followed the four-phase boundary:
+
+- CI readiness refused the longer sleep, compared failure and success logs,
+  instrumented workflow-to-process-to-readiness boundaries, and required one
+  hypothesis plus a regression test before a fix.
+- Missing region refused the silent default, traced configuration from source
+  through deployment injection, process environment, and parsing, while
+  treating rollback as reversible incident recovery rather than a root-cause
+  fix.
+- Flaky test refused a third guessed fix, requested evidence from both prior
+  attempts, and selected a diagnostic condition wait only after confirming the
+  asynchronous completion condition.
+
+Result: PASS. The portable Skill preserves root-cause-first behavior, single
+hypothesis testing, the three-fix architecture stop, and condition-based waits.
+The Lace-specific TypeScript example and upstream authoring/evaluation files
+were intentionally excluded because they are not runtime-generic resources.
