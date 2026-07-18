@@ -26,11 +26,11 @@ starting the second.
 - Create: `skills/verification-before-completion/SKILL.md`
 - Create: `docs/evals/2026-07-19-final-superpowers-skills.md`
 
-- [ ] Run combined-pressure controls without the formal Skill.
-- [ ] Record stale-evidence, delegated-report, and partial-check behavior.
-- [ ] Adapt the evidence gate without upstream author-history material.
-- [ ] Run the same scenarios with the formal Skill loaded.
-- [ ] Validate and commit the completed Skill.
+- [x] Run combined-pressure controls without the formal Skill.
+- [x] Record stale-evidence, delegated-report, and partial-check behavior.
+- [x] Adapt the evidence gate without upstream author-history material.
+- [x] Run the same scenarios with the formal Skill loaded.
+- [x] Validate the completed Skill.
 
 ### Task 2: `using-git-worktrees`
 
@@ -58,4 +58,3 @@ starting the second.
 - [ ] Install all 16 Skills into a temporary target and compare the mirror.
 - [ ] Confirm the configured OpenCode loader discovers all 16 Skills.
 - [ ] Commit integration documentation and confirm a clean worktree.
-
