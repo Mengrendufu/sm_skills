@@ -34,3 +34,34 @@ All three agents explicitly loaded the formal Skill and stopped before edits:
 
 Result: PASS. The forward runs made evidence, hidden decisions, and approval
 state explicit without restoring the upstream visual or suite dependencies.
+
+## `test-driven-development`
+
+### Control Run
+
+One control independently kept a failing regression test first. The two higher
+pressure controls accepted tests-after:
+
+- Existing implementation: “本轮不重构、不删除现有实现，也不新增测试或补覆盖率”
+  and would change the retry constant before a behavioral test.
+- Manager-approved one-line fix: “不新增专门的失败用例” and would rely on the
+  fastest existing check before claiming the timeout change fixed.
+
+Observed failure: verification discipline alone did not preserve test-first
+order under sunk-cost, authority, and urgency pressure.
+
+### Forward Run
+
+All three agents loaded the formal Skill and preserved RED before production
+changes:
+
+- The empty-email fix required a minimal regression test that failed for the
+  observed defect before modifying the validation boundary.
+- The retry case explicitly rejected keeping the untested 200-line
+  implementation as reference and requested authority before deleting it.
+- The timeout case distinguished production behavior from a configuration
+  exception, required a failing targeted test for behavior, and refused to say
+  `fixed` without fresh evidence.
+
+Result: PASS. Moving the anti-pattern reference under `references/` did not
+weaken the upstream RED-GREEN-REFACTOR behavior.
