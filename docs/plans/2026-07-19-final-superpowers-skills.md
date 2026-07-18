@@ -39,12 +39,12 @@ starting the second.
 - Create: `skills/using-git-worktrees/SKILL.md`
 - Modify: `docs/evals/2026-07-19-final-superpowers-skills.md`
 
-- [ ] Run isolation controls without the formal Skill.
-- [ ] Record nested-worktree, ignore-check, and baseline-test behavior.
-- [ ] Adapt the workflow around generic capability detection and safe Git
+- [x] Run isolation controls without the formal Skill.
+- [x] Record nested-worktree, ignore-check, and baseline-test behavior.
+- [x] Adapt the workflow around generic capability detection and safe Git
   fallback.
-- [ ] Run the same scenarios with the formal Skill loaded.
-- [ ] Validate and commit the completed Skill.
+- [x] Run the same scenarios with the formal Skill loaded.
+- [x] Validate the completed Skill.
 
 ### Task 3: Library Closure
 

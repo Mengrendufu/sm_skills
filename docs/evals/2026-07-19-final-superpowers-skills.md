@@ -33,3 +33,39 @@ All three agents read the formal Skill and preserved the same boundary:
 
 Result: PASS. The portable Skill retains strict claim-to-evidence scope without
 depending on repository instructions or upstream author-history anecdotes.
+
+## `using-git-worktrees`
+
+### Control Run
+
+Three controls responded without reading the candidate or formal Skill:
+
+- Existing linked worktree: correctly rejected a nested worktree, but still
+  proposed creating a sibling worktree without first deciding whether the
+  current isolated checkout already satisfied the task.
+- Unignored project directory: refused to create under `.worktrees/`, but
+  silently changed the requested location to a repository-external directory
+  instead of surfacing the location-policy conflict for approval.
+- Failing baseline: honored the user's explicit direction to proceed while
+  accurately reporting 12 existing failures and refusing to say tests passed.
+
+Observed failure: general Git knowledge prevented the most dangerous commands,
+but did not consistently preserve the ordered reuse and preference gates.
+
+### Forward Run
+
+All three agents read the formal Skill and followed the relevant branch:
+
+- Existing linked worktree: rejected nesting; because the requested deliverable
+  was explicitly an additional worktree, it checked ignore status, branch
+  existence, and target path before proposing a sibling worktree.
+- Unignored project directory: stopped without changing `.gitignore` or
+  silently substituting an external path, then requested explicit location
+  authority.
+- Failing baseline: reused the existing isolated checkout and preserved the 12
+  failures as the visible pre-change baseline. It followed the user's explicit
+  direction to proceed but refused to claim tests passed.
+
+Result: PASS. The portable Skill distinguishes reuse from explicit provisioning,
+preserves workspace authority, and reports baseline state accurately without a
+runtime-specific worktree command.
