@@ -479,10 +479,10 @@
     "Review every BLOCKED section and item before marking the report PASS."
   ],
   "_meta": {
-    "common_base": "/home/sunnymatato/.config/opencode/skills/qm-c-hsm-implementor/assets/examples/sm-master",
+    "common_base": ".",
     "generated_from": {
-      "ir_path": "/home/sunnymatato/.config/opencode/skills/qm-c-hsm-implementor/assets/examples/sm-master/sm_master.ir.json",
-      "trace_path": "/home/sunnymatato/.config/opencode/skills/qm-c-hsm-implementor/assets/examples/sm-master/sm_master.trace.json"
+      "ir_path": "sm_master.ir.json",
+      "trace_path": "sm_master.trace.json"
     },
     "known_state_ids": [
       "active",

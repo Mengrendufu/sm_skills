@@ -22,6 +22,21 @@ Use this rubric to review an interface or implementation boundary. Favor qualita
 | Data cleanup | Validation/normalization is centralized | Cleanup is duplicated across branches |
 | Logic branching | Branches consume cleaned data and explicit state | Branches parse, clean, mutate state, and decide behavior at once |
 
+## Interaction Modeling Checks
+
+| Check | Good Signal | Failure Signal |
+| --- | --- | --- |
+| Entity choice | Logical responsibility with a stable boundary | Helper, field bundle, or storage detail promoted to component |
+| Touch point | Real cross-entity contract | Every internal call becomes an interface |
+| Contract ownership | Requirement owner owns required port; behavior owner owns provided API | Implementer or runtime target is assumed to own the contract |
+| Implementation | Contract owner and implementer are identified separately | Callback implementation is treated as contract ownership |
+| Source dependency | Concrete import arrows and wiring point are named | Dependency is guessed from runtime direction |
+| Runtime flow | Request and fulfillment authority, handler, and delivery mode are explicit | Calling or handling is treated as ownership |
+| Data authority | Storage, mutation, and cleanup authority are distinct | Requesting a change is treated as owning target state |
+| Data mode | Value and pointee each state copy, borrow, transfer, or share plus validity | Pointer or descriptor copy is treated as pointee ownership |
+| Data detail | Detail exists only for contract-bearing data | Private layout dominates the top-level view |
+| Containment | Composition means real lifetime ownership | Package nesting is shown as runtime ownership |
+
 ## Precision Checks
 
 | Check | Good Signal | Failure Signal |
@@ -41,6 +56,12 @@ Use this rubric to review an interface or implementation boundary. Favor qualita
 - Boolean flags form an implicit state machine.
 - Validation is repeated in many branches.
 - State transitions happen during data cleanup.
+- Runtime flow is mistaken for source-dependency direction.
+- Event flow, source dependency, and data lifetime are collapsed into one arrow.
+- A callback exists, but the concrete modules still import each other.
+- Implementing a callback is mistaken for owning its required contract.
+- A request is mistaken for ownership of the state it changes.
+- A copied descriptor hides borrowed or shorter-lived pointees.
 
 ## Revision Direction
 
@@ -52,6 +73,11 @@ When tightening a boundary, prefer:
 - One stable public contract plus internal helpers.
 - Centralized cleanup before branching.
 - Explicit states and transitions when behavior is stateful.
+- Textual logical entities and touch points before diagram details.
+- Separate requirement, contract, implementation, decision, storage, and cleanup
+  authority within the four boundary views.
+- Explicit copy, borrow, transfer, or share semantics and validity periods.
+- Direct dependencies unless inversion solves a real outward dependency.
 
 ## Do Not Over-Correct
 
@@ -60,3 +86,4 @@ Narrowing is not fragmentation. Avoid splitting when:
 - One invariant must hold across the whole operation.
 - The split would force callers to coordinate broken intermediate state.
 - The result is only multiple pass-through wrappers around one unchanged hidden workflow.
+- A concrete dependency is already stable and does not need substitution or inversion.

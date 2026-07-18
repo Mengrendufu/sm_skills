@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Cross-session context migration for OpenCode work. Use when the user asks to hand off, migrate, compact, resume in a new session, or preserve the essential current-session context as a self-contained continuation prompt.
+description: Cross-session context migration for agent work. Use when the user asks to hand off, migrate, compact, resume in a new session, or preserve the essential current-session context as a self-contained continuation prompt.
 ---
 
 # Handoff
@@ -15,7 +15,7 @@ This is not a project plan and not a durable task file by default. It is a one-s
 
 1. Confirm there is meaningful context to migrate. If the session is empty or only conversational, say there is not enough to hand off.
 2. Gather fresh evidence before summarizing:
-   - Read the current conversation context available to OpenCode.
+   - Read the current conversation context available to the agent.
    - Run `git status --porcelain` when inside a Git worktree.
    - Run a focused recent-change command such as `git diff --stat` or `git diff --stat HEAD~10..HEAD` when appropriate.
    - Read any active plan/checklist state visible in the conversation.

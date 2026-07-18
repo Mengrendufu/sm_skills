@@ -11,7 +11,7 @@ Route note operations through the local Obsidian CLI wrapper and avoid guessing 
 
 ## Workflow
 
-1. Run Obsidian commands through `scripts/obsidian-local.sh`.
+1. Resolve `<skill-dir>` as the directory containing this `SKILL.md`, then run Obsidian commands through `<skill-dir>/scripts/obsidian-local.sh`.
 2. Let the wrapper auto-discover the vault unless the user explicitly provides `OBSIDIAN_VAULT` or `vault=`.
 3. Prefer exact note targets with `path=`.
 4. Route command-shape questions to `references/official-cli-patterns.md`.
@@ -32,7 +32,7 @@ When a target path is absolute and inside the vault, the wrapper rewrites it to 
 
 ## Do
 
-- Use `bash /home/sunnymatato/.config/opencode/skills/obsidian-master/scripts/obsidian-local.sh ...`
+- Use `bash "<skill-dir>/scripts/obsidian-local.sh" ...` after resolving `<skill-dir>` from the loaded skill path.
 - Use official CLI `key=value` argument style.
 - Prefer `path=` when the target note must be exact.
 - Use `append` or `prepend` for deterministic note updates.
@@ -55,7 +55,7 @@ When a target path is absolute and inside the vault, the wrapper rewrites it to 
 ## Validation
 
 ```bash
-bash /home/sunnymatato/.config/opencode/skills/obsidian-master/scripts/obsidian-local.sh version
+bash "<skill-dir>/scripts/obsidian-local.sh" version
 ```
 
 ## Limits

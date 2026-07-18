@@ -6,7 +6,9 @@ OBSIDIAN_VAULT="${OBSIDIAN_VAULT:-}"
 OBSIDIAN_VAULT_NAME="${OBSIDIAN_VAULT_NAME:-}"
 OBSIDIAN_PATH_PREFIX="${OBSIDIAN_PATH_PREFIX:-}"
 CMD_EXE="${CMD_EXE:-/mnt/c/Windows/System32/cmd.exe}"
-WINDOWS_PATH_CONVERTER="${WINDOWS_PATH_CONVERTER:-/home/sunnymatato/.config/opencode/skills/win-wsl-path-converter/scripts/convert_windows_path.sh}"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+SKILLS_ROOT="$(cd -- "$SCRIPT_DIR/../.." && pwd -P)"
+WINDOWS_PATH_CONVERTER="${WINDOWS_PATH_CONVERTER:-$SKILLS_ROOT/win-wsl-path-converter/scripts/convert_windows_path.sh}"
 
 normalize_path_arg() {
     local value="$1"

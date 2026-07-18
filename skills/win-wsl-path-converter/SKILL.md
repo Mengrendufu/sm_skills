@@ -35,7 +35,7 @@ Route Windows path conversion through the local script.
 ## Validation
 
 ```bash
-bash /home/sunnymatato/.config/opencode/skills/win-wsl-path-converter/scripts/convert_windows_path.sh '<path>'
+bash "<skill-dir>/scripts/convert_windows_path.sh" '<path>'
 ```
 
 ## Limits

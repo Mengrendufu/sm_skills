@@ -1,6 +1,6 @@
 ---
 name: strict-coding
-description: "Use when implementing, refactoring, designing, or reviewing code that needs strict boundaries: narrow interfaces, explicit contracts, black-box transformations, state-machine behavior, and separated data production, cleanup, and branching."
+description: "Use when implementing, refactoring, designing, modeling, or reviewing code whose interfaces, ownership, dependencies, state, or execution boundaries are unclear or tightly coupled."
 ---
 
 # Strict Coding
@@ -9,8 +9,9 @@ description: "Use when implementing, refactoring, designing, or reviewing code t
 
 Produce code whose contracts and execution boundaries are easy to reason about.
 
-This skill merges two concerns:
+This skill merges three concerns:
 
+- Interaction boundary: which logical entities touch and who owns each contract, dependency, and lifetime.
 - Interface boundary: what the caller is allowed to know and depend on.
 - Implementation boundary: how data production, data cleanup, and logic branching are separated inside the boundary.
 
@@ -31,14 +32,16 @@ Do not hide a state machine behind ordinary helper, service, process, handle, or
 
 ## Workflow
 
-1. Identify the caller, object, and single responsibility.
-2. State the contract in plain language before naming methods or fields.
-3. Define minimum inputs, outputs, errors, side effects, and invariants.
-4. Classify the implementation as black-box, state-machine, or mixed.
-5. Split mixed responsibilities before proposing or editing code.
-6. Identify data production, data cleanup, and logic branching points.
-7. Keep those points separate unless the code is trivially small.
-8. Return the narrowest viable interface, implementation, or review findings.
+1. Identify the scope, caller, object, and single responsibility.
+2. For cross-entity work, list logical entities and real interaction touch points.
+3. State the contract in plain language before naming methods or fields.
+4. Separate interface ownership, source dependency, runtime flow, and data lifetime.
+5. Define minimum inputs, outputs, errors, side effects, and invariants.
+6. Classify the implementation as black-box, state-machine, or mixed.
+7. Split mixed responsibilities before proposing or editing code.
+8. Identify data production, data cleanup, and logic branching points.
+9. Keep those points separate unless the code is trivially small.
+10. Return the narrowest viable interface, implementation, or review findings.
 
 Read `references/boundary-rubric.md` when the boundary feels wide, leaky, fragmented, stateful, or mixed.
 
@@ -61,6 +64,64 @@ Reject:
 - Mixed read/write responsibilities unless the coupling is essential.
 - Raw data exposure when behavior is the real contract.
 - Splitting purely for aesthetics.
+
+## Interaction-Boundary Modeling
+
+Use this before drawing component UML or changing module boundaries.
+
+Model logical entities with independent responsibilities, then list their real,
+stable touch points. Start with this textual boundary before editing a diagram.
+
+Keep these four views separate because their directions can differ:
+
+- Interface ownership: identify separately who states the requirement, who
+  defines and evolves the contract, and who supplies its implementation.
+- Source dependency: which source imports which abstraction, and where the
+  wiring point binds an implementation.
+- Runtime flow: who initiates and handles the interaction, how decision authority
+  is split between requesting and fulfillment, and whether delivery is
+  synchronous or asynchronous.
+- Data ownership and lifetime: identify separately the storage owner, mutation
+  authority, copy/borrow/transfer/share mode of each value and pointee, validity
+  period, and cleanup owner.
+
+A provided interface normally belongs to the module whose behavior it exposes.
+A required port belongs to the module that states the need and absorbs changes
+to that contract; another module supplies the implementation. Name concrete
+source-dependency arrows and the wiring point instead of inferring dependency
+from runtime direction.
+
+Do not infer ownership from an action alone:
+
+- Implementing a callback does not imply ownership of its required contract.
+- Requesting a state change does not imply ownership of the target state.
+- Holding a pointer does not imply ownership of its pointee.
+- Copying a descriptor does not imply copying or owning referenced objects.
+
+- Keep a direct dependency when the concrete call is already the stable contract.
+- Use dependency inversion when a module must call outward without importing the
+  outer implementation.
+- Use containment for static organization; use composition only for real runtime
+  lifetime ownership.
+- Classify runtime delivery as synchronous or asynchronous. Represent event flow
+  separately from source dependency, using a sequence or state view when order
+  or reactions matter.
+
+Model a data structure in detail only when it carries an interaction contract:
+
+- It crosses a module, thread, process, or device boundary.
+- Its fields drive receiver branching or state transitions.
+- Its ownership or lifetime must be coordinated.
+- Its shape forces coordinated changes across entities.
+
+For each cross-boundary value and pointee, record whether it is copied, borrowed,
+transferred, or shared, its validity period, mutation authority, and cleanup
+owner. Treat the containing descriptor and referenced objects independently.
+
+Otherwise defer fields, helpers, storage layout, algorithms, and private classes.
+Do not promote every call to a named interface. Stop when private internals can
+change without changing the graph, while the model still explains what crosses
+each boundary, who owns it, and how it is handled.
 
 ## Linear Black-Box Code
 
@@ -213,6 +274,13 @@ When reviewing code, look first for:
 - Validation duplicated across many branches.
 - State transitions hidden inside cleanup code.
 - Interfaces that are too wide, leaky, or coupled to implementation shape.
+- Logical entities mixed with helpers, fields, or storage details in one view.
+- Interface ownership inferred incorrectly from runtime call direction.
+- Source dependency, event flow, and data lifetime collapsed into one arrow.
+- Contract ownership inferred from who implements a callback.
+- Decision authority confused with target-state or storage ownership.
+- A copied descriptor mistaken for ownership of borrowed pointees.
+- Containment shown as composition without real lifetime ownership.
 
 ## Output
 
@@ -248,6 +316,15 @@ Non-goals:
 Assumptions:
 ```
 
+For interaction-boundary tasks, also include:
+
+```md
+Interface Ownership (requirement / contract / implementation):
+Source Dependencies / Wiring Point:
+Runtime Flow (initiator / decision / handler / delivery mode):
+Data Ownership (mode / storage / mutation / validity / cleanup):
+```
+
 For review tasks, use this skeleton:
 
 ```md
@@ -269,6 +346,9 @@ Assumptions / Open Questions:
 ## Limits
 
 - Do not do full system architecture decomposition here.
+- Do not turn every concrete call into an interface.
+- Do not model private data unless it carries a cross-boundary contract.
+- Do not equate calling, implementing, storing, or pointing with ownership.
 - Do not split purely for aesthetics.
 - Do not force state-machine structure onto pure data transformations.
 - Do not optimize for abstract future flexibility over current contract clarity.
