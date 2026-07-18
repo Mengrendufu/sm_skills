@@ -1,7 +1,7 @@
 # Superpowers Skill Candidates
 
-这里保存尚未正式收录的 Superpowers Skill 候选。候选内容保持上游原样，
-不会被本仓库的安装器迁移，也不代表已经完成工具去耦或行为验证。
+这里保存用于筛选和追溯的 Superpowers Skill 上游原样副本。候选内容不会被
+本仓库的安装器迁移；正式适配后的版本位于 `skills/`，两者相互独立。
 
 ## 来源
 
@@ -13,16 +13,16 @@
 
 ## 首批候选
 
-| Skill | 通用性 | 耦合 | 主要依赖 | 建议 |
-|---|---|---|---|---|
-| `receiving-code-review` | 高 | 低 | 无硬依赖；末尾含 GitHub 回复示例 | 优先筛选 |
-| `verification-before-completion` | 高 | 低 | 无硬依赖 | 优先筛选 |
-| `test-driven-development` | 高 | 低 | 同目录 `testing-anti-patterns.md` | 优先筛选 |
-| `systematic-debugging` | 高 | 中 | 显式引用 TDD、完成前验证及同目录资料 | 建议成组筛选 |
-| `using-git-worktrees` | 高 | 中 | Git、宿主原生隔离能力 | 建议保留，需能力化措辞 |
-| `writing-plans` | 中高 | 高 | worktree、子 Agent 执行链、固定文档路径 | 先裁剪再收录 |
-| `brainstorming` | 高 | 高 | `writing-plans`、视觉伴侣脚本、固定文档路径 | 先裁剪再收录 |
-| `writing-skills` | 高 | 高 | TDD、子 Agent 压力测试、Anthropic 参考资料 | 值得保留，需单独改造 |
+| Skill | 状态 | 通用性 | 耦合 | 主要依赖 | 建议 |
+|---|---|---|---|---|---|
+| `test-driven-development` | 已收录 | 高 | 低 | 同目录 `testing-anti-patterns.md` | 正式版见 `skills/` |
+| `systematic-debugging` | 已收录 | 高 | 中 | 显式引用 TDD、完成前验证及同目录资料 | 正式版见 `skills/` |
+| `brainstorming` | 已收录 | 高 | 高 | `writing-plans`、视觉伴侣脚本、固定文档路径 | 正式版见 `skills/` |
+| `receiving-code-review` | 待筛选 | 高 | 低 | 无硬依赖；末尾含 GitHub 回复示例 | 优先筛选 |
+| `verification-before-completion` | 待筛选 | 高 | 低 | 无硬依赖 | 优先筛选 |
+| `using-git-worktrees` | 待筛选 | 高 | 中 | Git、宿主原生隔离能力 | 建议保留，需能力化措辞 |
+| `writing-plans` | 待筛选 | 中高 | 高 | worktree、子 Agent 执行链、固定文档路径 | 先裁剪再收录 |
+| `writing-skills` | 待筛选 | 高 | 高 | TDD、子 Agent 压力测试、Anthropic 参考资料 | 值得保留，需单独改造 |
 
 ## 暂未摘取
 

@@ -37,6 +37,7 @@
 
 | Skill | 用途 |
 |---|---|
+| `brainstorming` | 在实现前澄清意图、决策缺口与最小设计 |
 | `design-by-contract` | 契约检查与错误处理语义 |
 | `grill-me` | 逐分支盘问并压力测试方案 |
 | `grill-with-docs` | 结合领域文档和 ADR 盘问方案 |
@@ -46,6 +47,8 @@
 | `qm-c-hsm-implementor` | 将 QM C HSM 语义实现到其他运行时 |
 | `qm-c-model-master` | 从 QM 生成的 C 提取 HSM 语义模型 |
 | `strict-coding` | 收紧接口、所有权、依赖和执行边界 |
+| `systematic-debugging` | 先定位根因，再用单一假设和回归测试修复 |
+| `test-driven-development` | 以 RED-GREEN-REFACTOR 驱动行为变更 |
 | `win-wsl-path-converter` | 将 Windows 绝对路径转换为 WSL 路径 |
 | `zoom-out` | 从陌生代码局部提升到系统视角 |
 
