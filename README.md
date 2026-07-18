@@ -49,6 +49,8 @@
 | `strict-coding` | 收紧接口、所有权、依赖和执行边界 |
 | `systematic-debugging` | 先定位根因，再用单一假设和回归测试修复 |
 | `test-driven-development` | 以 RED-GREEN-REFACTOR 驱动行为变更 |
+| `using-git-worktrees` | 安全创建、复用并验证隔离的 Git 工作区 |
+| `verification-before-completion` | 以当前证据约束完成、通过和交付声明 |
 | `win-wsl-path-converter` | 将 Windows 绝对路径转换为 WSL 路径 |
 | `zoom-out` | 从陌生代码局部提升到系统视角 |
 

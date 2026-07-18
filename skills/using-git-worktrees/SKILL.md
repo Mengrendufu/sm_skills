@@ -52,8 +52,8 @@ existing `worktrees/`, then project-local `.worktrees/`.
 For a project-local location, verify it is ignored before creation:
 
 ```bash
-git check-ignore -q -- .worktrees 2>/dev/null || \
-git check-ignore -q -- worktrees 2>/dev/null
+selected_root='<selected-project-relative-root>'
+git check-ignore -q -- "$selected_root" "$selected_root/"
 ```
 
 If the selected project-local directory is not ignored, stop. Propose the
@@ -63,18 +63,25 @@ forbidden, ask whether to use an explicit repository-external location.
 Resolve the exact branch and path before creation:
 
 ```bash
-git worktree list --porcelain
-git branch --list '<branch-name>'
-test ! -e '<worktree-path>'
+branch_name='<branch-name>'
+worktree_path='<worktree-path>'
+
+test ! -e "$worktree_path"
+if git worktree list --porcelain | grep -Fxq "branch refs/heads/$branch_name"; then
+    printf 'branch is already attached to a worktree: %s\n' "$branch_name" >&2
+    exit 1
+fi
+
+if git show-ref --verify --quiet "refs/heads/$branch_name"; then
+    git worktree add "$worktree_path" "$branch_name"
+else
+    git worktree add "$worktree_path" -b "$branch_name"
+fi
 ```
 
-Then create the worktree with explicit values:
-
-```bash
-git worktree add '<worktree-path>' -b '<branch-name>'
-```
-
-Never target an existing path, unresolved variable, or broad glob.
+Reuse an existing unattached branch without `-b`; use `-b` only to create an
+absent branch. Never target an existing path, unresolved variable, or broad
+glob.
 
 ## 5. Set Up the Project
 

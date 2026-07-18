@@ -53,8 +53,8 @@ starting the second.
 - Modify: `README.md`
 - Modify: `candidates/superpowers/README.md`
 
-- [ ] Mark only the two selected candidates as promoted.
-- [ ] Validate all 16 formal Skills and all eight candidate provenance copies.
-- [ ] Install all 16 Skills into a temporary target and compare the mirror.
-- [ ] Confirm the configured OpenCode loader discovers all 16 Skills.
-- [ ] Commit integration documentation and confirm a clean worktree.
+- [x] Mark only the two selected candidates as promoted.
+- [x] Validate all 16 formal Skills and all eight candidate provenance copies.
+- [x] Install all 16 Skills into a temporary target and compare the mirror.
+- [x] Confirm the configured OpenCode loader discovers all 16 Skills.
+- [x] Prepare integration documentation for the final commit.

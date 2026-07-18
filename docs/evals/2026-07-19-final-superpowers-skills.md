@@ -69,3 +69,27 @@ All three agents read the formal Skill and followed the relevant branch:
 Result: PASS. The portable Skill distinguishes reuse from explicit provisioning,
 preserves workspace authority, and reports baseline state accurately without a
 runtime-specific worktree command.
+
+### Review Follow-up
+
+Independent review found two ambiguous safety checks in the Git fallback:
+
+- Ignore validation checked both conventional directory names instead of the
+  exact selected root.
+- Branch preflight did not distinguish an absent branch, an existing unattached
+  branch, and a branch already attached to another worktree.
+
+The Skill now checks only `selected_root`, rejects an attached branch, reuses an
+existing unattached branch without `-b`, and uses `-b` only for a new branch.
+A forward scenario covering all three branches produced the expected stop,
+reuse, and reject decisions. Result: PASS.
+
+## Integration Note
+
+Two compound verification runs against OpenCode 1.18.3 returned incomplete,
+non-repeatable sets of existing Skills while still discovering both new Skills.
+The missing sets differed between runs. A subsequent isolated sample of ten
+loader invocations discovered all 16 formal Skills every time. Repository
+validation and the exact installation mirror were unaffected. This is recorded
+as an external loader observation rather than hidden or treated as a Skill
+content failure.

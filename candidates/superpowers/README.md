@@ -18,11 +18,13 @@
 | `test-driven-development` | 已收录 | 高 | 低 | 同目录 `testing-anti-patterns.md` | 正式版见 `skills/` |
 | `systematic-debugging` | 已收录 | 高 | 中 | 显式引用 TDD、完成前验证及同目录资料 | 正式版见 `skills/` |
 | `brainstorming` | 已收录 | 高 | 高 | `writing-plans`、视觉伴侣脚本、固定文档路径 | 正式版见 `skills/` |
-| `receiving-code-review` | 待筛选 | 高 | 低 | 无硬依赖；末尾含 GitHub 回复示例 | 优先筛选 |
-| `verification-before-completion` | 待筛选 | 高 | 低 | 无硬依赖 | 优先筛选 |
-| `using-git-worktrees` | 待筛选 | 高 | 中 | Git、宿主原生隔离能力 | 建议保留，需能力化措辞 |
-| `writing-plans` | 待筛选 | 中高 | 高 | worktree、子 Agent 执行链、固定文档路径 | 先裁剪再收录 |
-| `writing-skills` | 待筛选 | 高 | 高 | TDD、子 Agent 压力测试、Anthropic 参考资料 | 值得保留，需单独改造 |
+| `verification-before-completion` | 已收录 | 高 | 低 | 无硬依赖 | 正式版见 `skills/` |
+| `using-git-worktrees` | 已收录 | 高 | 中 | Git、宿主原生隔离能力 | 正式版见 `skills/` |
+| `receiving-code-review` | 未收录 | 高 | 低 | 无硬依赖；末尾含 GitHub 回复示例 | 仅保留来源副本 |
+| `writing-plans` | 未收录 | 中高 | 高 | worktree、子 Agent 执行链、固定文档路径 | 仅保留来源副本 |
+| `writing-skills` | 未收录 | 高 | 高 | TDD、子 Agent 压力测试、Anthropic 参考资料 | 仅保留来源副本 |
+
+本轮筛选到此结束。未收录项及“暂未摘取”项不进入正式 Skill 库。
 
 ## 暂未摘取
 
@@ -33,7 +35,7 @@
 - `finishing-a-development-branch`：固定 merge、push、PR 和 worktree 清理菜单，
   更像具体交付政策而非稳定泛型能力。
 
-## 筛选后的处理
+## 已收录项的处理规则
 
 选中的 Skill 不应直接移动到正式目录。应逐个执行：
 
