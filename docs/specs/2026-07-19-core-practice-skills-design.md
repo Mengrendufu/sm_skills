@@ -72,4 +72,3 @@ time, authority, and simplicity pressure.
 - Candidate copies remain byte-for-byte unchanged.
 - The installer mirrors all 14 formal Skills without copying generated caches.
 - Pressure-test evidence records control and forward outcomes.
-

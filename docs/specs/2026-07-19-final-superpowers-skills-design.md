@@ -63,4 +63,3 @@ actual evidence instead of the desired outcome.
 - The installer mirrors all 16 formal Skills and the configured OpenCode loader
   discovers all 16 through the portable custom path.
 - Control and forward-run evidence is recorded.
-
