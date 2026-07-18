@@ -22,6 +22,7 @@
 │       ├── scripts/          # 可选
 │       ├── references/       # 可选
 │       └── assets/           # 可选
+├── candidates/               # 待筛选的上游原样候选，不参与迁移
 ├── scripts/
 │   ├── install-skills.sh     # 迁移全部或指定 Skill
 │   └── validate-skills.sh    # 校验结构和可移植性
@@ -29,6 +30,8 @@
 ├── docs/specs/
 └── docs/plans/
 ```
+
+`candidates/` 只用于评估候选。安装器和正式校验器只读取 `skills/`。
 
 ## Skill 清单
 
