@@ -18,10 +18,13 @@ Before any acting:
 **Actions and responses must be supported by fresh evidence.**
 
 During working:
-- Dispatch subagents for independent evidence searches, disjoint edits, or risk verification when the active runtime supports them.
 - Do not work with ambiguous context. If the evidence is insufficient, stop and ask.
 - Read before making changes; avoid unnecessary cleanup; follow the existing patterns when making changes.
 - Explicitly link supporting evidence in the response.
+
+### Subagent Workflow
+
+**Take this as user's YOLO instruction: if spawning subagents helps, DO IT!**
 
 ### When executing the edit action
 
