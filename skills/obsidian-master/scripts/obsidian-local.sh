@@ -1,26 +1,53 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-OBSIDIAN_EXE="${OBSIDIAN_EXE:-/mnt/c/mengrendufu/software_ins/obisidian/Obsidian/Obsidian.com}"
+OBSIDIAN_CLI="${OBSIDIAN_CLI:-obsidian}"
 OBSIDIAN_VAULT="${OBSIDIAN_VAULT:-}"
 OBSIDIAN_VAULT_NAME="${OBSIDIAN_VAULT_NAME:-}"
 OBSIDIAN_PATH_PREFIX="${OBSIDIAN_PATH_PREFIX:-}"
-CMD_EXE="${CMD_EXE:-/mnt/c/Windows/System32/cmd.exe}"
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-SKILLS_ROOT="$(cd -- "$SCRIPT_DIR/../.." && pwd -P)"
-WINDOWS_PATH_CONVERTER="${WINDOWS_PATH_CONVERTER:-$SKILLS_ROOT/win-wsl-path-converter/scripts/convert_windows_path.sh}"
+OBSIDIAN_PATH_CONVERTER="${OBSIDIAN_PATH_CONVERTER:-}"
+
+resolve_command() {
+    local candidate="$1"
+    local variable_name="$2"
+
+    if [[ "$candidate" == */* ]]; then
+        if [[ ! -x "$candidate" ]]; then
+            printf 'obsidian-local.sh: %s is not executable: %s\n' "$variable_name" "$candidate" >&2
+            return 127
+        fi
+        printf '%s\n' "$candidate"
+        return 0
+    fi
+
+    if ! command -v "$candidate"; then
+        printf 'obsidian-local.sh: %s command not found: %s\n' "$variable_name" "$candidate" >&2
+        return 127
+    fi
+}
+
+path_converter=""
+if [[ -n "$OBSIDIAN_PATH_CONVERTER" ]]; then
+    path_converter="$(resolve_command "$OBSIDIAN_PATH_CONVERTER" "OBSIDIAN_PATH_CONVERTER")" || exit $?
+fi
 
 normalize_path_arg() {
     local value="$1"
     local converted
 
-    if [[ -x "$WINDOWS_PATH_CONVERTER" ]]; then
-        if converted="$(bash "$WINDOWS_PATH_CONVERTER" "$value")"; then
+    if [[ -n "$path_converter" ]]; then
+        if converted="$("$path_converter" "$value")"; then
             printf '%s\n' "$converted"
             return 0
         fi
         return 1
     fi
+    case "$value" in
+        [A-Za-z]:\\*|[A-Za-z]:/*|\\\\*)
+            printf 'obsidian-local.sh: foreign path requires OBSIDIAN_PATH_CONVERTER: %s\n' "$value" >&2
+            return 2
+            ;;
+    esac
 
     printf '%s\n' "$value"
 }
@@ -46,50 +73,6 @@ find_vault_root() {
     return 1
 }
 
-obsidian_config_vaults() {
-    local config
-    local configs=(
-        "/mnt/c/Users/1/AppData/Roaming/obsidian/obsidian.json"
-        "/mnt/c/Users/1/AppData/Roaming/Obsidian/obsidian.json"
-    )
-
-    for config in "${configs[@]}"; do
-        [[ -f "$config" ]] || continue
-        python3 - "$config" <<'PY'
-import json
-import sys
-from pathlib import Path
-
-config = Path(sys.argv[1])
-try:
-    data = json.loads(config.read_text(encoding="utf-8"))
-except Exception:
-    raise SystemExit(0)
-
-items = []
-for vault_id, vault in (data.get("vaults") or {}).items():
-    if not isinstance(vault, dict):
-        continue
-    path = vault.get("path")
-    if not path:
-        continue
-    open_rank = 0 if vault.get("open") else 1
-    try:
-        ts_rank = -int(vault.get("ts") or 0)
-    except Exception:
-        ts_rank = 0
-    items.append((open_rank, ts_rank, str(vault_id), str(path)))
-
-seen = set()
-for _, _, vault_id, path in sorted(items):
-    key = (vault_id, path)
-    if key in seen:
-        continue
-    seen.add(key)
-    print(f"{vault_id}\t{path}")
-PY
-    done
-}
 
 arg_candidate_paths() {
     local arg
@@ -141,15 +124,20 @@ try_vault_candidate() {
 }
 
 discover_vault() {
-    local line
     local vault_id
     local path
     local pwd_path
-    local common
-    local config_lines=()
+    local explicit_vault
 
-    if [[ -n "$OBSIDIAN_VAULT" ]] && try_vault_candidate "env" "" "$OBSIDIAN_VAULT"; then
-        return 0
+    if [[ -n "$OBSIDIAN_VAULT" ]]; then
+        if ! explicit_vault="$(normalize_path_arg "$OBSIDIAN_VAULT")"; then
+            return 2
+        fi
+        if try_vault_candidate "env" "" "$explicit_vault"; then
+            return 0
+        fi
+        printf 'obsidian-local.sh: OBSIDIAN_VAULT does not identify an Obsidian vault: %s\n' "$OBSIDIAN_VAULT" >&2
+        return 2
     fi
 
     while IFS=$'\t' read -r vault_id path; do
@@ -162,27 +150,6 @@ discover_vault() {
     if try_vault_candidate "cwd" "" "$pwd_path"; then
         return 0
     fi
-
-    mapfile -t config_lines < <(obsidian_config_vaults)
-    for line in "${config_lines[@]}"; do
-        IFS=$'\t' read -r vault_id path <<< "$line"
-        if try_vault_candidate "obsidian-config" "$vault_id" "$path"; then
-            return 0
-        fi
-    done
-
-    for common in \
-        "/mnt/c/mengrendufu/workshop/obsidian" \
-        "/mnt/c/Users/1/Documents/Obsidian Vault" \
-        "/mnt/c/Users/1/Documents/Obsidian" \
-        "/mnt/c/Users/1/OneDrive/Documents/Obsidian Vault" \
-        "$HOME/Obsidian" \
-        "$HOME/obsidian"
-    do
-        if try_vault_candidate "fallback" "" "$common"; then
-            return 0
-        fi
-    done
 
     return 1
 }
@@ -275,6 +242,10 @@ if discover_vault; then
         fi
     fi
 else
+    discovery_status=$?
+    if [[ $discovery_status -eq 2 ]]; then
+        exit 2
+    fi
     path_prefix="$OBSIDIAN_PATH_PREFIX"
 fi
 
@@ -317,13 +288,6 @@ for arg in "${args[@]}"; do
     esac
 done
 
-if [[ -x "$OBSIDIAN_EXE" ]]; then
-    exec "$OBSIDIAN_EXE" "${rewritten_args[@]}"
-fi
+obsidian_cli="$(resolve_command "$OBSIDIAN_CLI" "OBSIDIAN_CLI")" || exit $?
 
-if [[ -x "$CMD_EXE" ]]; then
-    exec "$CMD_EXE" /d /c obsidian "${rewritten_args[@]}"
-fi
-
-printf 'obsidian-local.sh: could not find Obsidian.com or cmd.exe\n' >&2
-exit 127
+exec "$obsidian_cli" "${rewritten_args[@]}"

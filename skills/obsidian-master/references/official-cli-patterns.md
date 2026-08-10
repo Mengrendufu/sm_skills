@@ -4,7 +4,7 @@ Reference: https://obsidian.md/help/cli
 
 This file keeps only the command patterns most useful for agent work.
 
-Resolve `SKILL_DIR` as the directory containing the active `obsidian-master/SKILL.md` before using these examples.
+Resolve `SKILL_DIR` as the directory containing the active `obsidian-master/SKILL.md`. Configure machine-specific values through the environment contract in `SKILL.md`.
 
 ## Syntax
 
@@ -13,9 +13,23 @@ Resolve `SKILL_DIR` as the directory containing the active `obsidian-master/SKIL
 - `vault=<name-or-id>` comes before the command
 - Quote values with spaces
 - Use `\n` in multiline content
-- The local wrapper auto-discovers the vault from `OBSIDIAN_VAULT`, absolute note targets, current directory, Obsidian's Windows app config, then known fallback paths.
-- In this local wrapper, `OBSIDIAN_VAULT` may point to a vault root or a subfolder inside a vault; when it points at a subfolder, `path=`, `to=`, and `folder=` are prefixed automatically relative to the real vault root.
-- In this local wrapper, Windows-style values passed through `OBSIDIAN_VAULT`, `path=`, `to=`, or `folder=` are converted before use by the local path-conversion helper. Absolute targets inside the vault are converted back to vault-relative paths. Unsupported UNC inputs and targets outside the vault fail fast.
+- The wrapper discovers the vault from `OBSIDIAN_VAULT`, absolute note targets, then the current directory.
+- `OBSIDIAN_VAULT` may point to a vault root or subfolder; subfolder targets are prefixed relative to the real vault root.
+- Set `OBSIDIAN_PATH_CONVERTER` when incoming paths use syntax foreign to the current Bash environment. The converter accepts one path and prints its normalized form.
+
+## Environment examples
+
+Use values appropriate to the current machine:
+
+```bash
+export OBSIDIAN_CLI="/path/to/obsidian-cli"
+export OBSIDIAN_VAULT="/path/to/vault"
+export OBSIDIAN_VAULT_NAME="vault-name-or-id"
+```
+
+When the `obsidian` command is already on `PATH`, omit `OBSIDIAN_CLI`. When commands run from inside the target vault, omit `OBSIDIAN_VAULT`.
+
+If a platform launcher requires prefix arguments, create a local adapter executable and set `OBSIDIAN_CLI` to that adapter. Do not put shell syntax in `OBSIDIAN_CLI`.
 
 ## General
 
