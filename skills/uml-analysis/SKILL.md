@@ -1,6 +1,6 @@
 ---
 name: uml-analysis
-description: Maps software requirements to capability-centred UML architecture decisions, ownership, cross-boundary contracts, and code construction boundaries. Use when locating required capabilities in Package, Subsystem, Component, or Interface models; deciding reuse, semantic refactoring, or minimal UML additions; determining whether implementation may begin; understanding a user-provided UML file by rendering it to an image and reading that image; or when the user asks the agent to draw UML (emit PlantUML source).
+description: Maps software requirements to capability-centred UML architecture decisions, ownership, cross-boundary contracts, and code construction boundaries. Use when locating required capabilities in Package, Subsystem, Component, or Interface models; deciding reuse, semantic refactoring, or minimal UML additions; determining whether implementation may begin; understanding a user-provided StarUML `.mdj` from the explorer tree and per-diagram contents; or when the user asks the agent to draw UML (emit PlantUML source).
 ---
 
 # UML Analysis
@@ -11,16 +11,26 @@ Map a requirement to the existing UML architecture, close only genuine capabilit
 
 ## Analysis input
 
-Apply this skill to a specific project's UML architecture. The project-declared StarUML model is authoritative. Inspect it through the image projection in `reference/uml-exchange.md`; do not parse the `.mdj` as text or JSON. Use code, runtime traces, and existing contracts as evidence of the current implementation, not as automatic proof that the current architecture is correct. The project model supplies the concrete elements, layer semantics, and relationships; this skill supplies the analysis method and decision loop. If the model, project rules, and implementation disagree, stop and report the inconsistency instead of inventing architecture facts.
+Apply this skill to a specific project's UML architecture. The project-declared StarUML model is authoritative. Inspect it through `reference/uml-exchange.md`: run `export_model_tree.py`, then read `# Explorer` and `# Diagrams`. Use code, runtime traces, and existing contracts as evidence of the current implementation, not as automatic proof that the current architecture is correct. The project model supplies the concrete elements, layer semantics, and relationships; this skill supplies the analysis method and decision loop. If the model, project rules, and implementation disagree, stop and report the inconsistency instead of inventing architecture facts.
 
 ## UML exchange
 
 Before inspecting a user-provided UML file or drawing a diagram, follow `reference/uml-exchange.md`.
 
-- Route first: `.mdj` → `receive`; PNG/screenshot only → `receive-image`; existing-model 看看 → ask for `.mdj` or PNG; draw-only → `emit`.
+- Route first: `.mdj` → `receive`; PNG/screenshot only → `receive-image` (diagram only; tree unknown); existing-model 看看 → ask for `.mdj`; draw-only → `emit`.
 - Mixed `.mdj` + 画出: `receive`, then analysis if they asked for it, then `emit`.
-- `receive`: identify this agent's environment (Windows or WSL), then run that environment's commands to locate Windows `StarUML.exe`, export the `.mdj` into a new PNG directory, and read those images.
+- `receive`: run `export_model_tree.py`; do not walk `.mdj` JSON yourself.
 - `emit`: present PlantUML source. It is a communication draft. Syntax follows `plantuml-master`. The Required output below applies to analysis, not to emit-only.
+
+## Mechanical receive
+
+`<skill-dir>` is the directory that contains this `SKILL.md`. Use this environment's `python`.
+
+1. `python "<skill-dir>/scripts/export_model_tree.py" --mdj "<mdj>" -o "<out>/model-tree.txt"`
+2. Read `model-tree.txt`: `# Explorer` is membership, model relations, and Documentation; `# Diagrams` is per-diagram elements, drawn edges, and Notes.
+3. Then continue with the analysis workflow below.
+
+If the script exits non-zero, stop. Use `mdj-tree-unreadable`. Do not reimplement the failed step.
 
 ## Workflow
 
@@ -78,10 +88,11 @@ Before inspecting a user-provided UML file or drawing a diagram, follow `referen
 - Use project-declared layer semantics to choose a Package; do not invent generic placement rules that conflict with the project architecture.
 - Surface material ambiguity as an explicit decision with alternatives instead of silently selecting a boundary.
 - Do not begin implementation while any capability mapping, ownership, dependency, boundary contract, or injection decision remains unresolved.
-- Do not read or parse a user-provided StarUML `.mdj` as text or JSON for comprehension.
-- Do not replace the rendered diagram with code-derived architecture.
-- Do not debug Graphviz or PlantUML when StarUML export fails.
-- Do not mix Windows-host and WSL-host Shell recipes. Identify the environment first, then run only that side.
+- Do not skip `# Explorer` when a `.mdj` is available. Nested membership is explorer ownership, not diagram layout.
+- Do not skip `# Diagrams`. An element may appear on more than one diagram; that is not the same as explorer ownership.
+- Do not walk `.mdj` JSON by hand. Run `export_model_tree.py`, then read its output.
+- Do not export diagrams to PNG. Drawn boxes, edges, and Notes come from `# Diagrams`.
+- Do not replace `# Explorer` or `# Diagrams` with code-derived architecture.
 - Do not answer a draw request with Mermaid, screenshots, or a prose-only description. The drawing must be PlantUML inside `@startuml` / `@enduml`.
 
 ## Required output
@@ -90,7 +101,8 @@ Use this template when mapping capabilities or deciding whether implementation m
 
 ```text
 Evidence and assumptions:
-- Verified: ...
+- Verified (explorer): ...
+- Verified (diagrams): ...
 - Assumed: ...
 - Inconsistencies: none / ...
 
@@ -102,6 +114,7 @@ Architecture mapping:
   Package: ...
   Subsystem / Component: ...
   Interface: ...
+  Model-tree parent: ...
   Interface owner: ...
   Consumer: ...
   Provider: ...

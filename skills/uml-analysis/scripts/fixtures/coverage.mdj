@@ -1,0 +1,1188 @@
+{
+	"_type": "Project",
+	"_id": "P",
+	"name": "Coverage",
+	"ownedElements": [
+		{
+			"_type": "UMLModel",
+			"_id": "Struct",
+			"_parent": {"$ref": "P"},
+			"name": "StructuralArchitecture",
+			"ownedElements": [
+				{
+					"_type": "UMLPackageDiagram",
+					"_id": "PkgDiag",
+					"_parent": {"$ref": "Struct"},
+					"name": "Architecture",
+					"ownedViews": [
+						{
+							"_type": "UMLPackageView",
+							"_id": "VApp",
+							"_parent": {"$ref": "PkgDiag"},
+							"model": {"$ref": "App"},
+							"containedViews": [{"$ref": "VCmp"}]
+						},
+						{
+							"_type": "UMLComponentView",
+							"_id": "VCmp",
+							"_parent": {"$ref": "PkgDiag"},
+							"model": {"$ref": "Cmp"}
+						},
+						{
+							"_type": "UMLInterfaceView",
+							"_id": "VIf",
+							"_parent": {"$ref": "PkgDiag"},
+							"model": {"$ref": "IFace"}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "VDep",
+							"_parent": {"$ref": "PkgDiag"},
+							"model": {"$ref": "Dep"},
+							"head": {"$ref": "VIf"},
+							"tail": {"$ref": "VCmp"}
+						},
+						{
+							"_type": "UMLInterfaceRealizationView",
+							"_id": "VReal",
+							"_parent": {"$ref": "PkgDiag"},
+							"model": {"$ref": "Real"},
+							"head": {"$ref": "VIf"},
+							"tail": {"$ref": "VCmp"}
+						},
+						{
+							"_type": "UMLNoteView",
+							"_id": "VNote",
+							"_parent": {"$ref": "PkgDiag"},
+							"text": "Cmp provides IFace"
+						},
+						{
+							"_type": "UMLNoteLinkView",
+							"_id": "VNoteLink",
+							"_parent": {"$ref": "PkgDiag"},
+							"head": {"$ref": "VNote"},
+							"tail": {"$ref": "VCmp"}
+						}
+					]
+				},
+				{
+					"_type": "UMLClassDiagram",
+					"_id": "ClsDiag",
+					"_parent": {"$ref": "Struct"},
+					"name": "Types",
+					"ownedViews": [
+						{
+							"_type": "UMLClassView",
+							"_id": "VBase",
+							"_parent": {"$ref": "ClsDiag"},
+							"model": {"$ref": "Base"}
+						},
+						{
+							"_type": "UMLClassView",
+							"_id": "VSpec",
+							"_parent": {"$ref": "ClsDiag"},
+							"model": {"$ref": "Spec"}
+						},
+						{
+							"_type": "UMLDataTypeView",
+							"_id": "VDt",
+							"_parent": {"$ref": "ClsDiag"},
+							"model": {"$ref": "Dt"}
+						},
+						{
+							"_type": "UMLGeneralizationView",
+							"_id": "VGen",
+							"_parent": {"$ref": "ClsDiag"},
+							"model": {"$ref": "Gen"},
+							"head": {"$ref": "VBase"},
+							"tail": {"$ref": "VSpec"}
+						},
+						{
+							"_type": "UMLAssociationView",
+							"_id": "VAssoc",
+							"_parent": {"$ref": "ClsDiag"},
+							"model": {"$ref": "Assoc"},
+							"head": {"$ref": "VSpec"},
+							"tail": {"$ref": "VDt"}
+						},
+						{
+							"_type": "UMLComponentView",
+							"_id": "VCmp2",
+							"_parent": {"$ref": "ClsDiag"},
+							"model": {"$ref": "Cmp"}
+						},
+						{
+							"_type": "UMLSignalView",
+							"_id": "VSig",
+							"_parent": {"$ref": "ClsDiag"},
+							"model": {"$ref": "Sig"}
+						},
+						{
+							"_type": "UMLPrimitiveTypeView",
+							"_id": "VPrim",
+							"_parent": {"$ref": "ClsDiag"},
+							"model": {"$ref": "Prim"}
+						},
+						{
+							"_type": "UMLEnumerationView",
+							"_id": "VEnum",
+							"_parent": {"$ref": "ClsDiag"},
+							"model": {"$ref": "Enum"}
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "VTxt",
+							"_parent": {"$ref": "ClsDiag"},
+							"text": "toolbox sweep"
+						}
+					]
+				},
+				{
+					"_type": "UMLPackage",
+					"_id": "App",
+					"_parent": {"$ref": "Struct"},
+					"name": "Application",
+					"documentation": "app layer",
+					"ownedElements": [
+						{
+							"_type": "UMLComponent",
+							"_id": "Cmp",
+							"_parent": {"$ref": "App"},
+							"name": "UIThread",
+							"stereotype": "active",
+							"ownedElements": [
+								{
+									"_type": "UMLDependency",
+									"_id": "Dep",
+									"_parent": {"$ref": "Cmp"},
+									"source": {"$ref": "Cmp"},
+									"target": {"$ref": "IFace"}
+								},
+								{
+									"_type": "UMLInterfaceRealization",
+									"_id": "Real",
+									"_parent": {"$ref": "Cmp"},
+									"source": {"$ref": "Cmp"},
+									"target": {"$ref": "IFace"}
+								}
+							]
+						},
+						{
+							"_type": "UMLInterface",
+							"_id": "IFace",
+							"_parent": {"$ref": "App"},
+							"name": "IUI",
+							"documentation": "ui contract",
+							"operations": [
+								{
+									"_type": "UMLOperation",
+									"_id": "Op",
+									"_parent": {"$ref": "IFace"},
+									"name": "init",
+									"parameters": [
+										{
+											"_type": "UMLParameter",
+											"_id": "Par",
+											"_parent": {"$ref": "Op"},
+											"name": "code",
+											"type": "int",
+											"direction": "return"
+										}
+									]
+								}
+							]
+						},
+						{
+							"_type": "UMLClass",
+							"_id": "Base",
+							"_parent": {"$ref": "App"},
+							"name": "Port",
+							"attributes": [
+								{
+									"_type": "UMLAttribute",
+									"_id": "Attr",
+									"_parent": {"$ref": "Base"},
+									"name": "kind",
+									"type": "string",
+									"stereotype": "enumeration"
+								}
+							]
+						},
+						{
+							"_type": "UMLClass",
+							"_id": "Spec",
+							"_parent": {"$ref": "App"},
+							"name": "SerialPort",
+							"templateParameters": [
+								{
+									"_type": "UMLTemplateParameter",
+									"_id": "TPar",
+									"_parent": {"$ref": "Spec"},
+									"name": "T"
+								}
+							],
+							"receptions": [
+								{
+									"_type": "UMLReception",
+									"_id": "Recv",
+									"_parent": {"$ref": "Spec"},
+									"name": "onEvent"
+								}
+							],
+							"ownedElements": [
+								{
+									"_type": "UMLGeneralization",
+									"_id": "Gen",
+									"_parent": {"$ref": "Spec"},
+									"source": {"$ref": "Spec"},
+									"target": {"$ref": "Base"}
+								},
+								{
+									"_type": "UMLPort",
+									"_id": "Port1",
+									"_parent": {"$ref": "Spec"},
+									"name": "sp"
+								}
+							]
+						},
+						{
+							"_type": "UMLDataType",
+							"_id": "Dt",
+							"_parent": {"$ref": "App"},
+							"name": "PortId"
+						},
+						{
+							"_type": "UMLAssociation",
+							"_id": "Assoc",
+							"_parent": {"$ref": "App"},
+							"name": "uses",
+							"end1": {
+								"_type": "UMLAssociationEnd",
+								"_id": "E1",
+								"name": "port",
+								"aggregation": "shared",
+								"reference": {"$ref": "Spec"},
+								"qualifiers": [
+									{
+										"_type": "UMLAttribute",
+										"_id": "Qual",
+										"name": "id"
+									}
+								]
+							},
+							"end2": {
+								"_type": "UMLAssociationEnd",
+								"_id": "E2",
+								"reference": {"$ref": "Dt"}
+							}
+						},
+						{
+							"_type": "UMLSignal",
+							"_id": "Sig",
+							"_parent": {"$ref": "App"},
+							"name": "PortEvent"
+						},
+						{
+							"_type": "UMLPrimitiveType",
+							"_id": "Prim",
+							"_parent": {"$ref": "App"},
+							"name": "Handle"
+						},
+						{
+							"_type": "UMLEnumeration",
+							"_id": "Enum",
+							"_parent": {"$ref": "App"},
+							"name": "PortKind",
+							"literals": [
+								{
+									"_type": "UMLEnumerationLiteral",
+									"_id": "Lit",
+									"_parent": {"$ref": "Enum"},
+									"name": "Usb"
+								}
+							]
+						},
+						{
+							"_type": "UMLSubsystem",
+							"_id": "Sub",
+							"_parent": {"$ref": "App"},
+							"name": "CoreSystem"
+						},
+						{
+							"_type": "UMLArtifact",
+							"_id": "Art",
+							"_parent": {"$ref": "App"},
+							"name": "firmware.bin"
+						},
+						{
+							"_type": "UMLConstraint",
+							"_id": "Cst",
+							"_parent": {"$ref": "App"},
+							"name": "MustHaveId",
+							"specification": "id <> null",
+							"constrainedElements": [{"$ref": "Spec"}]
+						}
+					],
+					"tags": [
+						{
+							"_type": "Tag",
+							"_id": "Tag1",
+							"_parent": {"$ref": "App"},
+							"name": "layer",
+							"kind": "string",
+							"value": "app"
+						},
+						{
+							"_type": "Tag",
+							"_id": "Tag2",
+							"_parent": {"$ref": "App"},
+							"name": "rev",
+							"kind": "number",
+							"number": 2
+						},
+						{
+							"_type": "Tag",
+							"_id": "Tag3",
+							"_parent": {"$ref": "App"},
+							"name": "owner",
+							"kind": "reference",
+							"reference": {"$ref": "Cmp"}
+						}
+					]
+				}
+			]
+		},
+		{
+			"_type": "UMLModel",
+			"_id": "Beh",
+			"_parent": {"$ref": "P"},
+			"name": "BehavioralArchitecture",
+			"ownedElements": [
+				{
+					"_type": "UMLCollaboration",
+					"_id": "Col",
+					"_parent": {"$ref": "Beh"},
+					"name": "SerialPortOperations",
+					"ownedElements": [
+						{
+							"_type": "UMLInteraction",
+							"_id": "Ix",
+							"_parent": {"$ref": "Col"},
+							"name": "ConnectSerialPort",
+							"ownedElements": [
+								{
+									"_type": "UMLSequenceDiagram",
+									"_id": "SeqDiag",
+									"_parent": {"$ref": "Ix"},
+									"name": "ConnectSerialPort",
+									"ownedViews": [
+										{
+											"_type": "UMLFrameView",
+											"_id": "VFrame",
+											"_parent": {"$ref": "SeqDiag"},
+											"model": {"$ref": "SeqDiag"}
+										},
+										{
+											"_type": "UMLSeqLifelineView",
+											"_id": "VL1",
+											"_parent": {"$ref": "SeqDiag"},
+											"model": {"$ref": "LifeUI"}
+										},
+										{
+											"_type": "UMLSeqLifelineView",
+											"_id": "VL2",
+											"_parent": {"$ref": "SeqDiag"},
+											"model": {"$ref": "LifeSp"}
+										},
+										{
+											"_type": "UMLSeqMessageView",
+											"_id": "VM2",
+											"_parent": {"$ref": "SeqDiag"},
+											"model": {"$ref": "MsgLate"},
+											"head": {"$ref": "VL2"},
+											"tail": {"$ref": "VL1"},
+											"points": "10:200;80:200"
+										},
+										{
+											"_type": "UMLSeqMessageView",
+											"_id": "VM1",
+											"_parent": {"$ref": "SeqDiag"},
+											"model": {"$ref": "MsgEarly"},
+											"head": {"$ref": "VL2"},
+											"tail": {"$ref": "VL1"},
+											"points": "10:80;80:80"
+										},
+										{
+											"_type": "UMLCombinedFragmentView",
+											"_id": "VAlt",
+											"_parent": {"$ref": "SeqDiag"},
+											"model": {"$ref": "Alt"}
+										}
+									]
+								},
+								{
+									"_type": "UMLLifeline",
+									"_id": "LifeUI",
+									"_parent": {"$ref": "Ix"},
+									"name": "UI",
+									"represent": {"$ref": "Cmp"}
+								},
+								{
+									"_type": "UMLLifeline",
+									"_id": "LifeSp",
+									"_parent": {"$ref": "Ix"},
+									"name": "SP_Manager"
+								},
+								{
+									"_type": "UMLMessage",
+									"_id": "MsgEarly",
+									"_parent": {"$ref": "Ix"},
+									"name": "SPMNGR_PORT_CONNECT",
+									"messageSort": "asynchSignal",
+									"source": {"$ref": "LifeUI"},
+									"target": {"$ref": "LifeSp"}
+								},
+								{
+									"_type": "UMLMessage",
+									"_id": "MsgLate",
+									"_parent": {"$ref": "Ix"},
+									"name": "UI_REFRESHED_PORTS",
+									"source": {"$ref": "LifeUI"},
+									"target": {"$ref": "LifeSp"}
+								},
+								{
+									"_type": "UMLCombinedFragment",
+									"_id": "Alt",
+									"_parent": {"$ref": "Ix"},
+									"name": "SerialPort_openResult",
+									"interactionOperator": "alt",
+									"operands": [
+										{
+											"_type": "UMLInteractionOperand",
+											"_id": "OpOk",
+											"_parent": {"$ref": "Alt"},
+											"name": "connected",
+											"guard": "success"
+										},
+										{
+											"_type": "UMLInteractionOperand",
+											"_id": "OpFail",
+											"_parent": {"$ref": "Alt"},
+											"name": "connectFailed",
+											"guard": "else"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"_type": "UMLStateMachine",
+					"_id": "SM",
+					"_parent": {"$ref": "Beh"},
+					"name": "PortLife",
+					"ownedElements": [
+						{
+							"_type": "UMLStatechartDiagram",
+							"_id": "StDiag",
+							"_parent": {"$ref": "SM"},
+							"name": "PortLife",
+							"ownedViews": [
+								{
+									"_type": "UMLStateView",
+									"_id": "VOff",
+									"_parent": {"$ref": "StDiag"},
+									"model": {"$ref": "Off"}
+								},
+								{
+									"_type": "UMLStateView",
+									"_id": "VOn",
+									"_parent": {"$ref": "StDiag"},
+									"model": {"$ref": "On"}
+								},
+								{
+									"_type": "UMLTransitionView",
+									"_id": "VTr",
+									"_parent": {"$ref": "StDiag"},
+									"model": {"$ref": "Tr"},
+									"head": {"$ref": "VOn"},
+									"tail": {"$ref": "VOff"}
+								}
+							]
+						},
+						{
+							"_type": "UMLState",
+							"_id": "Off",
+							"_parent": {"$ref": "SM"},
+							"name": "Closed"
+						},
+						{
+							"_type": "UMLState",
+							"_id": "On",
+							"_parent": {"$ref": "SM"},
+							"name": "Open"
+						},
+						{
+							"_type": "UMLTransition",
+							"_id": "Tr",
+							"_parent": {"$ref": "SM"},
+							"name": "open",
+							"source": {"$ref": "Off"},
+							"target": {"$ref": "On"}
+						}
+					]
+				},
+				{
+					"_type": "UMLUseCase",
+					"_id": "UC",
+					"_parent": {"$ref": "Beh"},
+					"name": "ConnectPort",
+					"extensionPoints": [
+						{
+							"_type": "UMLExtensionPoint",
+							"_id": "EP",
+							"_parent": {"$ref": "UC"},
+							"name": "onError"
+						}
+					],
+					"ownedElements": [
+						{
+							"_type": "UMLInclude",
+							"_id": "Inc",
+							"_parent": {"$ref": "UC"},
+							"source": {"$ref": "UC"},
+							"target": {"$ref": "UCInc"}
+						},
+						{
+							"_type": "UMLExtend",
+							"_id": "Ext",
+							"_parent": {"$ref": "UC"},
+							"source": {"$ref": "UCExt"},
+							"target": {"$ref": "UC"}
+						}
+					]
+				},
+				{
+					"_type": "UMLUseCase",
+					"_id": "UCInc",
+					"_parent": {"$ref": "Beh"},
+					"name": "OpenHandle"
+				},
+				{
+					"_type": "UMLUseCase",
+					"_id": "UCExt",
+					"_parent": {"$ref": "Beh"},
+					"name": "ShowError"
+				},
+				{
+					"_type": "UMLUseCaseSubject",
+					"_id": "Subj",
+					"_parent": {"$ref": "Beh"},
+					"name": "SerialApp"
+				},
+				{
+					"_type": "UMLActor",
+					"_id": "Actor",
+					"_parent": {"$ref": "Beh"},
+					"name": "User"
+				},
+				{
+					"_type": "UMLUseCaseDiagram",
+					"_id": "UcDiag",
+					"_parent": {"$ref": "Beh"},
+					"name": "UseCases",
+					"ownedViews": [
+						{
+							"_type": "UMLActorView",
+							"_id": "VAct",
+							"_parent": {"$ref": "UcDiag"},
+							"model": {"$ref": "Actor"}
+						},
+						{
+							"_type": "UMLUseCaseView",
+							"_id": "VUc",
+							"_parent": {"$ref": "UcDiag"},
+							"model": {"$ref": "UC"}
+						},
+						{
+							"_type": "UMLUseCaseView",
+							"_id": "VUcInc",
+							"_parent": {"$ref": "UcDiag"},
+							"model": {"$ref": "UCInc"}
+						},
+						{
+							"_type": "UMLIncludeView",
+							"_id": "VInc",
+							"_parent": {"$ref": "UcDiag"},
+							"model": {"$ref": "Inc"},
+							"head": {"$ref": "VUcInc"},
+							"tail": {"$ref": "VUc"}
+						},
+						{
+							"_type": "UMLUseCaseSubjectView",
+							"_id": "VSubj",
+							"_parent": {"$ref": "UcDiag"},
+							"model": {"$ref": "Subj"}
+						}
+					]
+				},
+				{
+					"_type": "UMLActivity",
+					"_id": "Act",
+					"_parent": {"$ref": "Beh"},
+					"name": "OpenPort",
+					"ownedElements": [
+						{
+							"_type": "UMLActivityDiagram",
+							"_id": "ActDiag",
+							"_parent": {"$ref": "Act"},
+							"name": "OpenPort",
+							"ownedViews": [
+								{
+									"_type": "UMLActionView",
+									"_id": "VActn",
+									"_parent": {"$ref": "ActDiag"},
+									"model": {"$ref": "Actn"}
+								},
+								{
+									"_type": "UMLControlNodeView",
+									"_id": "VInit",
+									"_parent": {"$ref": "ActDiag"},
+									"model": {"$ref": "InitN"}
+								},
+								{
+									"_type": "UMLControlFlowView",
+									"_id": "VCf",
+									"_parent": {"$ref": "ActDiag"},
+									"model": {"$ref": "Cf"},
+									"head": {"$ref": "VActn"},
+									"tail": {"$ref": "VInit"}
+								}
+							]
+						},
+						{
+							"_type": "UMLAction",
+							"_id": "Actn",
+							"_parent": {"$ref": "Act"},
+							"name": "connect",
+							"kind": "opaque",
+							"ownedElements": [
+								{
+									"_type": "UMLInputPin",
+									"_id": "InPin",
+									"_parent": {"$ref": "Actn"},
+									"name": "in"
+								},
+								{
+									"_type": "UMLOutputPin",
+									"_id": "OutPin",
+									"_parent": {"$ref": "Actn"},
+									"name": "out"
+								}
+							]
+						},
+						{
+							"_type": "UMLInitialNode",
+							"_id": "InitN",
+							"_parent": {"$ref": "Act"},
+							"name": "start"
+						},
+						{
+							"_type": "UMLActivityFinalNode",
+							"_id": "FinN",
+							"_parent": {"$ref": "Act"},
+							"name": "done"
+						},
+						{
+							"_type": "UMLControlFlow",
+							"_id": "Cf",
+							"_parent": {"$ref": "Act"},
+							"source": {"$ref": "InitN"},
+							"target": {"$ref": "Actn"}
+						},
+						{
+							"_type": "UMLObjectNode",
+							"_id": "ObjN",
+							"_parent": {"$ref": "Act"},
+							"name": "token"
+						},
+						{
+							"_type": "UMLObjectFlow",
+							"_id": "Of",
+							"_parent": {"$ref": "Act"},
+							"source": {"$ref": "Actn"},
+							"target": {"$ref": "ObjN"}
+						},
+						{
+							"_type": "UMLFlowFinalNode",
+							"_id": "FlowFin",
+							"_parent": {"$ref": "Act"},
+							"name": "stop"
+						},
+						{
+							"_type": "UMLForkNode",
+							"_id": "ForkN",
+							"_parent": {"$ref": "Act"},
+							"name": "fork"
+						},
+						{
+							"_type": "UMLJoinNode",
+							"_id": "JoinN",
+							"_parent": {"$ref": "Act"},
+							"name": "join"
+						},
+						{
+							"_type": "UMLMergeNode",
+							"_id": "MergeN",
+							"_parent": {"$ref": "Act"},
+							"name": "merge"
+						},
+						{
+							"_type": "UMLDecisionNode",
+							"_id": "DecN",
+							"_parent": {"$ref": "Act"},
+							"name": "decide"
+						},
+						{
+							"_type": "UMLActivityPartition",
+							"_id": "Partn",
+							"_parent": {"$ref": "Act"},
+							"name": "ui"
+						},
+						{
+							"_type": "UMLExceptionHandler",
+							"_id": "ExH",
+							"_parent": {"$ref": "Act"},
+							"source": {"$ref": "Actn"},
+							"target": {"$ref": "FinN"}
+						},
+						{
+							"_type": "UMLActivityInterrupt",
+							"_id": "ActInt",
+							"_parent": {"$ref": "Act"},
+							"source": {"$ref": "Actn"},
+							"target": {"$ref": "FlowFin"}
+						},
+						{
+							"_type": "UMLExpansionRegion",
+							"_id": "ExpR",
+							"_parent": {"$ref": "Act"},
+							"name": "each"
+						}
+					]
+				}
+			]
+		},
+		{
+			"_type": "UMLModel",
+			"_id": "Sweep",
+			"_parent": {"$ref": "P"},
+			"name": "ToolboxSweep",
+			"ownedElements": [
+				{
+					"_type": "UMLNode",
+					"_id": "Host",
+					"_parent": {"$ref": "Sweep"},
+					"name": "Host"
+				},
+				{
+					"_type": "UMLNode",
+					"_id": "Dev",
+					"_parent": {"$ref": "Sweep"},
+					"name": "Device"
+				},
+				{
+					"_type": "UMLDeployment",
+					"_id": "Deply",
+					"_parent": {"$ref": "Sweep"},
+					"source": {"$ref": "Art"},
+					"target": {"$ref": "Host"}
+				},
+				{
+					"_type": "UMLCommunicationPath",
+					"_id": "CPath",
+					"_parent": {"$ref": "Sweep"},
+					"name": "usb",
+					"end1": {
+						"_type": "UMLAssociationEnd",
+						"_id": "CE1",
+						"reference": {"$ref": "Host"}
+					},
+					"end2": {
+						"_type": "UMLAssociationEnd",
+						"_id": "CE2",
+						"reference": {"$ref": "Dev"}
+					}
+				},
+				{
+					"_type": "UMLDeploymentDiagram",
+					"_id": "DepDiag",
+					"_parent": {"$ref": "Sweep"},
+					"name": "Deploy",
+					"ownedViews": [
+						{
+							"_type": "UMLNodeView",
+							"_id": "VHost",
+							"_parent": {"$ref": "DepDiag"},
+							"model": {"$ref": "Host"}
+						},
+						{
+							"_type": "UMLArtifactView",
+							"_id": "VArt",
+							"_parent": {"$ref": "DepDiag"},
+							"model": {"$ref": "Art"}
+						},
+						{
+							"_type": "UMLDeploymentView",
+							"_id": "VDeply",
+							"_parent": {"$ref": "DepDiag"},
+							"model": {"$ref": "Deply"},
+							"head": {"$ref": "VHost"},
+							"tail": {"$ref": "VArt"}
+						}
+					]
+				},
+				{
+					"_type": "UMLObject",
+					"_id": "Obj",
+					"_parent": {"$ref": "Sweep"},
+					"name": "port0",
+					"classifier": {"$ref": "Spec"},
+					"slots": [
+						{
+							"_type": "UMLSlot",
+							"_id": "Slot1",
+							"_parent": {"$ref": "Obj"},
+							"name": "kind",
+							"value": "Usb"
+						}
+					]
+				},
+				{
+					"_type": "UMLObject",
+					"_id": "Obj2",
+					"_parent": {"$ref": "Sweep"},
+					"name": "mgr0"
+				},
+				{
+					"_type": "UMLLink",
+					"_id": "Lnk",
+					"_parent": {"$ref": "Sweep"},
+					"name": "owns",
+					"end1": {
+						"_type": "UMLLinkEnd",
+						"_id": "LE1",
+						"reference": {"$ref": "Obj"}
+					},
+					"end2": {
+						"_type": "UMLLinkEnd",
+						"_id": "LE2",
+						"reference": {"$ref": "Obj2"}
+					}
+				},
+				{
+					"_type": "UMLObjectDiagram",
+					"_id": "ObjDiag",
+					"_parent": {"$ref": "Sweep"},
+					"name": "Objects",
+					"ownedViews": [
+						{
+							"_type": "UMLObjectView",
+							"_id": "VObj",
+							"_parent": {"$ref": "ObjDiag"},
+							"model": {"$ref": "Obj"}
+						},
+						{
+							"_type": "UMLObjectView",
+							"_id": "VObj2",
+							"_parent": {"$ref": "ObjDiag"},
+							"model": {"$ref": "Obj2"}
+						},
+						{
+							"_type": "UMLLinkView",
+							"_id": "VLnk",
+							"_parent": {"$ref": "ObjDiag"},
+							"model": {"$ref": "Lnk"},
+							"head": {"$ref": "VObj2"},
+							"tail": {"$ref": "VObj"}
+						}
+					]
+				},
+				{
+					"_type": "UMLProfile",
+					"_id": "Prof",
+					"_parent": {"$ref": "Sweep"},
+					"name": "AppProfile",
+					"ownedElements": [
+						{
+							"_type": "UMLStereotype",
+							"_id": "Stereo",
+							"_parent": {"$ref": "Prof"},
+							"name": "active"
+						},
+						{
+							"_type": "UMLMetaClass",
+							"_id": "MC",
+							"_parent": {"$ref": "Prof"},
+							"name": "Component"
+						},
+						{
+							"_type": "UMLExtension",
+							"_id": "Xtn",
+							"_parent": {"$ref": "Prof"},
+							"source": {"$ref": "Stereo"},
+							"target": {"$ref": "MC"}
+						},
+						{
+							"_type": "UMLProfileDiagram",
+							"_id": "PrDiag",
+							"_parent": {"$ref": "Prof"},
+							"name": "Profile",
+							"ownedViews": [
+								{
+									"_type": "UMLStereotypeView",
+									"_id": "VStereo",
+									"_parent": {"$ref": "PrDiag"},
+									"model": {"$ref": "Stereo"}
+								},
+								{
+									"_type": "UMLMetaClassView",
+									"_id": "VMC",
+									"_parent": {"$ref": "PrDiag"},
+									"model": {"$ref": "MC"}
+								},
+								{
+									"_type": "UMLExtensionView",
+									"_id": "VXtn",
+									"_parent": {"$ref": "PrDiag"},
+									"model": {"$ref": "Xtn"},
+									"head": {"$ref": "VMC"},
+									"tail": {"$ref": "VStereo"}
+								}
+							]
+						}
+					]
+				},
+				{
+					"_type": "UMLCollaborationUse",
+					"_id": "CUse",
+					"_parent": {"$ref": "Sweep"},
+					"name": "opsUse",
+					"type": {"$ref": "Col"}
+				},
+				{
+					"_type": "UMLRoleBinding",
+					"_id": "RB",
+					"_parent": {"$ref": "Sweep"},
+					"source": {"$ref": "CUse"},
+					"target": {"$ref": "Cmp"}
+				},
+				{
+					"_type": "UMLConnector",
+					"_id": "Conn",
+					"_parent": {"$ref": "Sweep"},
+					"name": "wire",
+					"end1": {
+						"_type": "UMLConnectorEnd",
+						"_id": "CnE1",
+						"reference": {"$ref": "Port1"}
+					},
+					"end2": {
+						"_type": "UMLConnectorEnd",
+						"_id": "CnE2",
+						"reference": {"$ref": "Cmp"}
+					}
+				},
+				{
+					"_type": "UMLInformationItem",
+					"_id": "Info",
+					"_parent": {"$ref": "Sweep"},
+					"name": "PortStatus"
+				},
+				{
+					"_type": "UMLInformationFlow",
+					"_id": "IFlow",
+					"_parent": {"$ref": "Sweep"},
+					"source": {"$ref": "Cmp"},
+					"target": {"$ref": "IFace"},
+					"conveyed": [{"$ref": "Info"}]
+				},
+				{
+					"_type": "UMLTemplateBinding",
+					"_id": "TB",
+					"_parent": {"$ref": "Sweep"},
+					"source": {"$ref": "Spec"},
+					"target": {"$ref": "Base"},
+					"parameterSubstitutions": [
+						{
+							"_type": "UMLTemplateParameterSubstitution",
+							"_id": "TSub",
+							"formal": {"$ref": "TPar"},
+							"actual": {"$ref": "Prim"}
+						}
+					]
+				},
+				{
+					"_type": "UMLRealization",
+					"_id": "Realz",
+					"_parent": {"$ref": "Sweep"},
+					"source": {"$ref": "Spec"},
+					"target": {"$ref": "IFace"}
+				},
+				{
+					"_type": "UMLAssociationClassLink",
+					"_id": "ACL",
+					"_parent": {"$ref": "Sweep"},
+					"classSide": {"$ref": "Spec"},
+					"associationSide": {"$ref": "Assoc"}
+				},
+				{
+					"_type": "UMLConnectionPointReference",
+					"_id": "CPR",
+					"_parent": {"$ref": "Sweep"},
+					"name": "entry"
+				},
+				{
+					"_type": "UMLPseudostate",
+					"_id": "InitS",
+					"_parent": {"$ref": "Sweep"},
+					"name": "init",
+					"kind": "initial"
+				},
+				{
+					"_type": "UMLFinalState",
+					"_id": "FinS",
+					"_parent": {"$ref": "Sweep"},
+					"name": "end"
+				},
+				{
+					"_type": "UMLRegion",
+					"_id": "Reg",
+					"_parent": {"$ref": "Sweep"},
+					"name": "r1"
+				},
+				{
+					"_type": "UMLGate",
+					"_id": "Gate1",
+					"_parent": {"$ref": "Sweep"},
+					"name": "g1"
+				},
+				{
+					"_type": "UMLEndpoint",
+					"_id": "Endp",
+					"_parent": {"$ref": "Sweep"},
+					"name": "lost"
+				},
+				{
+					"_type": "UMLStateInvariant",
+					"_id": "Inv",
+					"_parent": {"$ref": "Sweep"},
+					"name": "open",
+					"invariant": "connected"
+				},
+				{
+					"_type": "UMLContinuation",
+					"_id": "Cont",
+					"_parent": {"$ref": "Sweep"},
+					"name": "resume"
+				},
+				{
+					"_type": "UMLInteractionUse",
+					"_id": "IUse",
+					"_parent": {"$ref": "Sweep"},
+					"name": "refConnect",
+					"refersTo": {"$ref": "Ix"}
+				},
+				{
+					"_type": "UMLConstraint",
+					"_id": "TSt",
+					"_parent": {"$ref": "Sweep"},
+					"name": "Busy"
+				},
+				{
+					"_type": "UMLStateInvariant",
+					"_id": "TSeg",
+					"_parent": {"$ref": "Sweep"},
+					"name": "t0"
+				},
+				{
+					"_type": "UMLTimingDiagram",
+					"_id": "TimDiag",
+					"_parent": {"$ref": "Sweep"},
+					"name": "Clock",
+					"ownedViews": [
+						{
+							"_type": "UMLTimingFrameView",
+							"_id": "VTimFrame",
+							"_parent": {"$ref": "TimDiag"},
+							"model": {"$ref": "TimDiag"}
+						},
+						{
+							"_type": "UMLTimingStateView",
+							"_id": "VBusy",
+							"_parent": {"$ref": "TimDiag"},
+							"model": {"$ref": "TSt"}
+						},
+						{
+							"_type": "UMLTimeSegmentView",
+							"_id": "VTSeg",
+							"_parent": {"$ref": "TimDiag"},
+							"model": {"$ref": "TSeg"}
+						},
+						{
+							"_type": "UMLTimeTickView",
+							"_id": "VTick",
+							"_parent": {"$ref": "TimDiag"},
+							"subViews": [
+								{
+									"_type": "LabelView",
+									"text": "t=5"
+								}
+							]
+						}
+					]
+				},
+				{
+					"_type": "UMLDurationConstraint",
+					"_id": "Dur",
+					"_parent": {"$ref": "Sweep"},
+					"name": "d1",
+					"specification": "0..10ms"
+				},
+				{
+					"_type": "UMLTimeConstraint",
+					"_id": "TmC",
+					"_parent": {"$ref": "Sweep"},
+					"name": "at5",
+					"specification": "t=5"
+				},
+				{
+					"_type": "UMLComponentInstance",
+					"_id": "CmpI",
+					"_parent": {"$ref": "Sweep"},
+					"name": "ui:UIThread"
+				},
+				{
+					"_type": "UMLArtifactInstance",
+					"_id": "ArtI",
+					"_parent": {"$ref": "Sweep"},
+					"name": "fw:firmware.bin"
+				},
+				{
+					"_type": "UMLNodeInstance",
+					"_id": "NodeI",
+					"_parent": {"$ref": "Sweep"},
+					"name": "host1:Host"
+				},
+				{
+					"_type": "UMLComponentRealization",
+					"_id": "CReal",
+					"_parent": {"$ref": "Sweep"},
+					"source": {"$ref": "Spec"},
+					"target": {"$ref": "Cmp"}
+				}
+			]
+		}
+	]
+}
