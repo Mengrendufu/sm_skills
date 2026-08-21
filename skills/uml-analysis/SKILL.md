@@ -20,7 +20,7 @@ Before inspecting a user-provided UML file or drawing a diagram, follow `referen
 - Route first: `.mdj` → `receive`; PNG/screenshot only → `receive-image` (diagram only; tree unknown); existing-model 看看 → ask for `.mdj`; draw-only → `emit`.
 - Mixed `.mdj` + 画出: `receive`, then analysis if they asked for it, then `emit`.
 - `receive`: run `export_model_tree.py`; do not walk `.mdj` JSON yourself.
-- `emit`: present PlantUML source. It is a communication draft. Syntax follows `plantuml-master`. The Required output below applies to analysis, not to emit-only.
+- `emit`: present PlantUML source. It is a communication draft. Use rendering-safe PlantUML syntax. The Required output below applies to analysis, not to emit-only.
 
 ## Mechanical receive
 
@@ -64,7 +64,7 @@ If the script exits non-zero, stop. Use `mdj-tree-unreadable`. Do not reimplemen
    - missing boundary capability semantics -> `Interface`;
    - missing consumer or provider relationship -> `Dependency` or `InterfaceRealization`.
 10. Re-run the complete mapping after planned architecture changes. Permit implementation only when the final classification is **Complete carrying** and no ownership, dependency, contract, or assembly decision remains unresolved.
-11. Hand the settled boundary to `strict-coding`. Implementation may refine internal algorithms and data structures, but must preserve Interface semantics, dependency direction, responsibility boundaries, cross-boundary data semantics, and resource ownership.
+11. Hand the settled boundary to the implementation phase. Implementation may refine internal algorithms and data structures, but must preserve Interface semantics, dependency direction, responsibility boundaries, cross-boundary data semantics, and resource ownership.
 12. After implementation, verify that code and UML still correspond.
 
 ## Interface rules

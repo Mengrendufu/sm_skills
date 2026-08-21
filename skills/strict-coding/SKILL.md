@@ -67,10 +67,10 @@ Reject:
 
 ## Interaction-Boundary Modeling
 
-Use this before drawing component UML or changing module boundaries.
+Use this before changing module boundaries.
 
 Model logical entities with independent responsibilities, then list their real,
-stable touch points. Start with this textual boundary before editing a diagram.
+stable touch points. Start from this textual boundary.
 
 Keep these four views separate because their directions can differ:
 
@@ -103,9 +103,8 @@ Do not infer ownership from an action alone:
   outer implementation.
 - Use containment for static organization; use composition only for real runtime
   lifetime ownership.
-- Classify runtime delivery as synchronous or asynchronous. Represent event flow
-  separately from source dependency, using a sequence or state view when order
-  or reactions matter.
+- Classify runtime delivery as synchronous or asynchronous. Keep event flow
+  separate from source dependency so ordering and reactions stay visible.
 
 Model a data structure in detail only when it carries an interaction contract:
 

@@ -5,9 +5,8 @@
 | Skill | 简述 |
 |---|---|
 | `brainstorming` | 在实现前澄清意图、决策缺口与最小设计 |
-| `design-by-contract` | 契约检查与错误处理语义 |
+| `design-by-contract` | ASSERT 判定与失败处理策略选型 |
 | `grill-me` | 逐分支盘问并压力测试方案 |
-| `grill-with-docs` | 结合领域文档和 ADR 盘问方案 |
 | `handoff` | 跨会话迁移关键上下文 |
 | `obsidian-master` | 通过本地 CLI 操作 Obsidian vault |
 | `plantuml-master` | 路由并生成可渲染的 PlantUML 图 |
