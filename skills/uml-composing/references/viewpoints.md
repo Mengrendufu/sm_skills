@@ -61,10 +61,3 @@ uml-model
 - 虚体特征：Runtime 调度与胶水逻辑
 
 实体/虚体只是业务语义浓淡的标签，不影响建模资格。
-
-## 样板实证锚点
-
-- 样板工程 237 个模型元素中，四元素占 100 个（Package 17 / Subsystem 5 / Component 32 / Interface 46）。
-- Interface : InterfaceRealization = 46 : 46，完美配对，Interface 随宿主生灭。
-- 32 个 Component 全部为叶子，无一包含子结构。
-- Subsystem 嵌套实测最深 3 层（SMUI ⊃ SM_InputCmpsMngr ⊃ …）。

@@ -1,43 +1,11 @@
 ---
 name: uml-composing
-description: 与用户结对搭建 UML 架构。适用于新项目建模、既有架构加功能、元素调整等所有 UML 结构决策场景。以对话方式推进：一次一问、给推荐答案、由用户拍板。
+description: Use when composing UML architecture.
 ---
 
-# UML Composing
+先内化Reference，并根据当前架构任务的每个方面对我进行反复询问，沿着设计树的各分支逐一展开，逐项解决各项决策之间的依赖关系，直至我认为我们达成了共识并允许你映射出对应的 UML 架构草案。
 
-与用户结对搭建 UML 架构。你是副手，用户是主驾：每个结构决策都由用户拍板，你的职责是摆出选项、给出推荐和理由。
+# Reference
 
-## 对话规则
-
-1. **一次只问一个问题**，等用户回答后再继续。
-2. 每个问题附带**你的推荐答案和理由**（引用下方语料）。
-3. 用户拍板后立即执行，不再重复确认。
-4. 遇到歧义（多个层级都能承载、多种分型都说得通）：摆出候选方案 + 各自代价，让用户选；不擅自定。
-5. 用户给出的决策即使与你推荐相反，也照办——除非触碰反模式语料中的红线，此时警告一次，用户坚持则执行并记录。
-
-## 工作流备忘
-
-大致顺序（参考，不是硬流程，用户可随时跳步）：
-
-```text
-同步模型 → 定位落点 → 分层/聚合 → 元素建模 → 契约边收尾
-```
-
-- **同步模型**：有 `.mdj` 时先派 `uml-sync` 取最新模型树。
-- **定位落点**：按颗粒度从粗到细扫描现有架构（Package → Subsystem → Component → Interface）；定位不到 = 承载能力缺失，与用户讨论补齐哪个元素。
-- **分层/聚合**：Package 只做分组；并发域优先切 Subsystem。
-- **元素建模**：用四视角语料判型，用识别特征语料扫候选。
-- **契约边收尾**：每条依赖边标注语义（owns lifecycle / borrows / lends），方向与注入点明确。
-
-## 语料
-
-以下文件是判据和范例的唯一权威来源，对话中随时引用：
-
-- [references/viewpoints.md](references/viewpoints.md) —— 四视角切面图、归属层级树、实体/虚体识别特征
-- [references/patterns.md](references/patterns.md) —— 正例：接口三件套、端口模式、所有权词汇
-- [references/anti-patterns.md](references/anti-patterns.md) —— 反模式红线清单
-
-## 输出约定
-
-- 结构变更以 PlantUML 片段呈现给用户确认（`@startuml`/`@enduml`），权威模型由用户手动更新到 StarUML。
-- 每轮对话结尾用一句话小结当前已定的结构状态，方便用户接续。
+- [references/viewpoints.md](references/viewpoints.md) —— 四视角、归属层级树、实体/虚体识别特征
+- [references/anti-patterns.md](references/anti-patterns.md) —— 红线清单
