@@ -15,7 +15,7 @@
 
 ```
 ┌─ Band 1 ─ Package :: 架构层级
-│    应用层 / BSP 层 / PORTS 层 / 内核层 / …
+│    应用层 / BSP 层 / PORTS 层 / 内核层 / BackEnd / FrontEnd / …
 │
 ├─ Band 2 ─ Subsystem :: 聚合对象 ＆ Component :: 叶子对象
 │    ├─ 实体
