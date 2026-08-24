@@ -1,89 +1,25 @@
 ---
 name: design-by-contract
-description: Assertion discipline and error-handling philosophy for coding and code review. Use when an agent must decide whether a check deserves an ASSERT/internal assumption versus another failure route, place assertions correctly, or choose recovery, propagation, rejection, fail-fast, or fatal handling across any programming language.
+description: 识别会破坏性的契约违约，并在运行时断言。
 ---
 
-# Design By Contract
+# 契约式防御性编程
 
 ## Goal
 
-Decide what deserves an assertion, then handle every other failure deliberately.
+识别出会导致结构性坍塌的、违背设计契约的、非业务级策略的运行时错误，并对其进行断言，以使程序可显式观测，无运行时未定义行为。
 
-`ASSERT` covers only local internal assumptions that hold when the surrounding code is correct. Anything else is either a contract boundary owned by a more specific check, or a failure that needs an explicit handling strategy. Misusing assert for those cases turns recoverable failures into crashes, or loses protection entirely when release builds strip checks.
+## 基本语义
 
-## Routing: Is It an ASSERT?
+| 违约                                  | 检查        |
+| ---                                   | ---         |
+| 调用方没履行进入受信任操作的义务      | `REQUIRE`   |
+| 成功返回时被调方保证不成立            | `ENSURE`    |
+| 公开操作前后必须成立的状态规则被打破  | `INVARIANT` |
+| 模型禁止的路径被走到                  | `ERROR`     |
+| 局部假设在这段代码正确时必真          | `ASSERT`    |
+| 检查被关掉时表达式仍必须执行          | `ALLEGE`    |
 
-These names describe intent, not a required language or macro system.
+## 参考模式
 
-| Signal | Verdict | Route |
-| --- | --- | --- |
-| A correct caller can trigger it in normal operation (IO, timeout, permission) | Expected runtime failure | Handling policy: return, propagate, retry, degrade |
-| Untrusted input crossing the system edge | Input validation | Validate and reject at the boundary |
-| Caller obligation before a trusted internal operation | `REQUIRE` | Contract check at operation entry |
-| Callee guarantee after successful completion | `ENSURE` | Contract check before returning the result |
-| State rule that must hold across public operations or transitions | `INVARIANT` | Contract check around state mutation |
-| Branch unreachable if code and model are correct | Impossible path | Mark explicitly (`ERROR`), never silent default |
-| Evaluation itself must execute even when checks are disabled | Must-evaluate | `ALLEGE`, keep it side-effect-free |
-| None of the above: a local assumption true when this code is correct | **`ASSERT`** | Place near the assumption |
-
-## ASSERT Discipline
-
-- Assert only what is impossible when the surrounding code is correct; everything else has a route above.
-- Place the check near the assumption it protects; keep predicates local, executable, and side-effect-free.
-- Make violations diagnosable: stable label or error code plus a readable failed condition and caller context.
-- Assume the platform may compile assertions out of release builds; never put required behavior inside the expression.
-- Prefer the most specific check over a generic assertion when ownership would otherwise stay unclear.
-
-## Failure Categories and Handling Policy
-
-Classify before choosing how to respond:
-
-- expected runtime failure → recover, retry, degrade, return, or propagate
-- invalid external input → validate and reject with actionable error
-- contract violation → platform's contract-failure mechanism or fail fast with evidence
-- invariant break or corrupted state → isolate, enter safe state, abort, restart, or invoke fatal handling
-- impossible path → explicit unreachable marker that fails loudly if executed
-
-Without this step, assertion becomes the answer to everything; it must stay the answer to almost nothing.
-
-## Workflow
-
-1. Ask first: could a correct caller hit this in normal operation? If yes, stop - it is not an ASSERT; classify the failure and pick a handling policy.
-2. Check for a more specific owner: `REQUIRE`, `ENSURE`, `INVARIANT`, `ERROR`, or `ALLEGE`. Only when none fits does the check remain an ASSERT.
-3. Classify the failure category (expected failure, invalid input, contract violation, invariant break, impossible path).
-4. Choose the handling policy for everything routed away from ASSERT.
-5. For confirmed ASSERTs: place near the assumption, keep the predicate side-effect-free, attach diagnostic evidence.
-6. For reviews: flag asserts on user input or expected failures, assertions carrying required behavior, generic assertions hiding a specific check's ownership, swallowed invariant failures, catch-all handling, and fatal handlers that lose evidence or return to unsafe code.
-7. Read `references/rubric.md` when classification, placement, continuation safety, or handler design is subtle.
-8. Return the verdict (ASSERT or routed alternative), failure category, handling policy, concrete code guidance, and verification path.
-
-## Do
-
-- Treat expected environmental failures as normal control/data flow handled by policy.
-- Treat contract violations as bugs, not user-facing validation errors.
-- Preserve diagnostic evidence: module, stable label or error code, failed predicate, caller/context.
-- Use the host platform's normal error-reporting mechanisms while keeping recoverable failures, rejected input, contract violations, and unsafe state distinct.
-
-## Do Not
-
-- Do not assert user input, missing files, network timeouts, permissions, or any expected runtime failure.
-- Do not put required behavior inside an assert expression; release builds may remove it entirely.
-- Do not hide impossible paths behind silent defaults instead of an explicit marker.
-- Do not catch and flatten distinct failures into one generic status.
-- Do not continue after an invariant break unless the code explicitly isolates or re-establishes trustworthy state.
-- Do not disable production contract checks without an equivalent safety and observability policy.
-
-## Output
-
-- For implementation tasks, state the ASSERT-or-route verdict and error classification, then apply the matching handling strategy in code.
-- For review tasks, list findings first, ordered by severity, with the confused error category and safer policy.
-- For design tasks, define only the minimal checks needed to protect the boundary and preserve failure evidence.
-
-## Resources
-
-- Read `references/rubric.md` when reviewing error handling or when classification is unclear.
-
-## Limits
-
-- Keep `SKILL.md` procedural.
-- Keep detailed language examples and evaluation criteria in `references/`.
+[references/patterns.md](references/patterns.md).

@@ -39,13 +39,12 @@ uml-model
 │   ├── package …            （分组递归）
 │   ├── subsystem :: 聚合对象
 │   │   ├── diagram
-│   │   ├── subsystem …      （聚合递归，实测深达 3 层）
+│   │   ├── subsystem …      （聚合递归）
 │   │   ├── component :: 叶子对象
 │   │   │   └── interface    （随宿主生灭）
 │   │   └── interface
 │   ├── component :: 叶子对象
 │   │   └── interface
-│   └── interface            （跨层契约可直挂 Package）
 ```
 
 要点：
