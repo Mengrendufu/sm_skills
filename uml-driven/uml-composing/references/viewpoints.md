@@ -2,12 +2,12 @@
 
 ## 建模视角
 
-| 元素 | 视角 | 回答的问题 |
-|---|---|---|
-| Package | 架构层级 | 能力归哪组？ |
-| Subsystem | 聚合对象 | 谁在协调多个下级兑现一个承诺？ |
-| Component | 叶子对象 | 谁能独自承诺完整语义？ |
-| Interface | I/O 契约 | 外部如何使用这个能力？`
+| 元素        | 视角     | 回答的问题                     |
+|---          |---       |---                             |
+| Package     | 架构层级 | 能力归哪组？                   |
+| Subsystem   | 聚合对象 | 谁在协调多个下级兑现一个承诺？ |
+| Component   | 叶子对象 | 谁能独自承诺完整语义？         |
+| Interface   | I/O 契约 | 外部如何使用这个能力？         |
 
 ## 视角切面图
 
@@ -39,18 +39,24 @@ uml-model
 │   ├── package …            （分组递归）
 │   ├── subsystem :: 聚合对象
 │   │   ├── diagram
+│   │   ├── package
 │   │   ├── subsystem …      （聚合递归）
 │   │   ├── component :: 叶子对象
 │   │   │   └── interface    （随宿主生灭）
-│   │   └── interface
+│   │   └── interface :: diagram-exposed
 │   ├── component :: 叶子对象
 │   │   └── interface
+│   └── interface :: diagram-exposed
 ```
 
 要点：
+- Package 间通过依赖线表明结构性通信依赖。
 - Component 是叶子，不递归；唯一允许的子节点是 Interface。
-- Subsystem 可递归嵌套（样板实证最深 3 层）。
-- Interface 在 package/subsystem/component 三层均可直接挂载。
+- Subsystem 可递归嵌套。
+- Interface 只由 Component 实现，可由其所属的 Subsystem 和 Package 在 diagram 暴露:
+  - Package -- `<<expose>>` --> Interface
+  - Subsystem -- `<<expose>>` --> Interface
+  - Compoent -- `<<realize>>` --> Interface
 
 ## 候选识别特征（建模资格）
 

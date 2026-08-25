@@ -1,28 +1,41 @@
 # sm_skills
 
-个人、可迁移、工具无关的 Agent Skills 集合。
+个人、可迁移、工具无关的 Agent Skills 集合。按主题分目录；每个 skill 仍是一层 `skill-name/SKILL.md`。
 
-## `skills/sm`
-
-个人维护的 skill。
+## `QP-style`
 
 | Skill | 简述 |
 |---|---|
 | `design-by-contract` | 识别会结构性坍塌的契约违约，并在运行时拦住 |
-| `grill-me` | 逐分支盘问并压力测试方案 |
-| `handoff` | 跨会话迁移关键上下文 |
-| `implement-interface` | 约束调用方能依赖的接口形态，拦住泄漏 |
-| `obsidian-master` | 通过本地 CLI 操作 Obsidian vault |
-| `plantuml-master` | 路由并生成可渲染的 PlantUML 图 |
+| `implement-interface` | 约束接口的颗粒度和语义范围 |
 | `qm-c-hsm-implementor` | 将 QM C HSM 语义实现到其他运行时 |
 | `qm-c-model-master` | 从 QM 生成的 C 提取 HSM 语义模型 |
-| `uml-composing` | 与用户结对搭建 UML 架构（语料：四视角、模式、反模式） |
+
+## `uml-driven`
+
+| Skill | 简述 |
+|---|---|
+| `uml-composing` | 与用户结对搭建 UML 架构 |
 | `uml-sync` | 将 StarUML .mdj 同步为 Agent 可读文本 |
-| `zoom-out` | 从陌生代码局部提升到系统视角 |
+| `zoom-out` | 以顶层包/模块视野拆解系统交互边界 |
 
-## `skills/superpowers`
+## `illustration`
 
-从 Superpowers 引入的 skill。许可证见 [skills/superpowers/LICENSE.superpowers](skills/superpowers/LICENSE.superpowers)。
+| Skill | 简述 |
+|---|---|
+| `obsidian-master` | 通过本地 CLI 操作 Obsidian vault |
+| `plantuml-master` | 路由并生成可渲染的 PlantUML 图 |
+
+## `Uncategorized`
+
+| Skill | 简述 |
+|---|---|
+| `grill-me` | 逐分支盘问并压力测试方案 |
+| `handoff` | 跨会话迁移关键上下文 |
+
+## `superpowers-mirror`
+
+从 Superpowers 引入。许可证见 [superpowers-mirror/LICENSE.superpowers](superpowers-mirror/LICENSE.superpowers)。
 
 | Skill | 简述 |
 |---|---|
