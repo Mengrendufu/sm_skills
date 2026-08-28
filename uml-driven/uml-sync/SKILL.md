@@ -1,6 +1,6 @@
 ---
 name: uml-sync
-description: 将用户的 StarUML .mdj 模型或架构图 PNG 同步为 Agent 可读文本。适用于建模前获取最新模型、查看现有 UML 架构、或提供模型上下文给其他 skill。
+description: 将用户的 StarUML 模型 [.mdj] 或架构图 PNG 同步为 Agent 可读文本。适用于建模前获取最新模型、查看现有 UML 架构、或提供模型上下文给其他 skill。
 ---
 
 # UML Sync

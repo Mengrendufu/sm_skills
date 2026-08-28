@@ -1,6 +1,6 @@
 ---
 name: implement-interface
-description: 设计接口时使用，约束接口的颗粒度和语义范围。
+description: Used when designing an interface/operation/method, Constraining the granularity and contract scope of an interface.
 ---
 
 # 接口形态

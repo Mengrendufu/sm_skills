@@ -1,6 +1,6 @@
 ---
 name: design-by-contract
-description: 识别会破坏性的契约违约，并在运行时断言。
+description: Detect destructive contract violations and assert at runtime. Use when working on assertion.
 ---
 
 # 契约式防御性编程

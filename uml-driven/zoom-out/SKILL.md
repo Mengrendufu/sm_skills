@@ -1,6 +1,6 @@
 ---
 name: zoom-out
-description: 在以顶层包/模块级抽象视野拆解系统时使用。
+description: 以顶层包/模块级抽象视野拆解系统。在探讨系统整体架构时使用。
 ---
 
 # Goal
