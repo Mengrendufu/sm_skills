@@ -91,8 +91,8 @@ def main():
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     text = src_path.read_text(encoding="utf-8").strip()
-    if "%%{init:" not in text:
-        # 指令必须在 diagram 类型声明之前
+    if "%%{init:" not in text and "sequenceDiagram" in text:
+        # 指令必须在 diagram 类型声明之前；只对序列图有意义
         text = DIRECTIVE + "\n" + text
 
     js_path, _ = find_mermaid(args.mermaid, out_path.parent)

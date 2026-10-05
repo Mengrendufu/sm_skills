@@ -90,12 +90,15 @@ function setupView() {
   var PAD = 8, HEAD_MAX = 120;
 
   // ── 固定头栏：克隆主 SVG，裁出顶部参与者那一带 ──────────────────
+  // 非序列图（没有 .actor-top）没有"参与者行"可钉，直接禁用头栏
   var clone = svg.cloneNode(true);
   clone.removeAttribute('id');
   headstg.appendChild(clone);
 
+  var actors = svg.querySelectorAll('.actor-top');
+  var hasActors = actors.length > 0;
   var bandTop = Infinity, bandBot = -Infinity;
-  svg.querySelectorAll('.actor-top').forEach(function (el) {
+  actors.forEach(function (el) {
     var b = el.getBBox();
     if (b.y < bandTop) bandTop = b.y;
     if (b.y + b.height > bandBot) bandBot = b.y + b.height;
@@ -205,9 +208,14 @@ function setupView() {
     if (e.key === '-') { s /= 1.25; apply(); }
   });
 
-  // 默认就打开固定头栏
-  headOn = true;
-  headbtn.classList.add('on');
+  // 默认打开固定头栏；非序列图没有参与者行可钉，按钮直接隐藏
+  if (hasActors) {
+    headOn = true;
+    headbtn.classList.add('on');
+  } else {
+    headOn = false;
+    headbtn.style.display = 'none';
+  }
   fitWidth();
 }
 </script>
