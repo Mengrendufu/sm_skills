@@ -25,6 +25,7 @@
 |---|---|
 | `obsidian-master` | 通过本地 CLI 操作 Obsidian vault |
 | `plantuml-master` | 路由并生成可渲染的 PlantUML 图 |
+| `mermaid-master` | 将 mermaid 序列图落成可交互 HTML 查看器 |
 
 ## `Uncategorized`
 
