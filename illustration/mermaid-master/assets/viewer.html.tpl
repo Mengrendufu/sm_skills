@@ -31,7 +31,8 @@
 
   #srcbox { position:absolute; top:42px; left:0; right:0; bottom:0;
             overflow:auto; margin:0; padding:16px; box-sizing:border-box;
-            background:#fbfbfb; font:13px/1.6 ui-monospace, Consolas, monospace;
+            background:#fbfbfb;
+            font:13px/1.6 ui-monospace, Consolas, monospace;
             white-space:pre; display:none; }
 </style>
 </head>
@@ -89,6 +90,15 @@ function setupView() {
   var srcMode = false, headOn = false;
   var PAD = 8, HEAD_MAX = 120;
 
+  // ── 先把 SVG 钉在它的自然尺寸上 ────────────────────────────────
+  // mermaid 给的是 width="100%"：只压 max-width 不够，svg 仍会被拉伸到容器宽，
+  // 于是所有按 s 算的几何（头栏对齐、钳位）全错。
+  var vb = svg.viewBox.baseVal;
+  svg.removeAttribute('width');
+  svg.removeAttribute('height');
+  svg.style.width  = vb.width  + 'px';
+  svg.style.height = vb.height + 'px';
+
   // ── 固定头栏：克隆主 SVG，裁出顶部参与者那一带 ──────────────────
   // 非序列图（没有 .actor-top）没有"参与者行"可钉，直接禁用头栏
   var clone = svg.cloneNode(true);
@@ -105,19 +115,24 @@ function setupView() {
   });
   if (!isFinite(bandTop)) { bandTop = 0; bandBot = 40; }
 
+  // getBBox 给的是用户坐标，viewBox 起点未必是 0（mermaid 是 -6,-6），
+  // 转成 svg 内的像素位置要把原点减掉
+  function bandTopPx() { return (bandTop - vb.y) * s; }
+  function bandBotPx() { return (bandBot - vb.y) * s; }
+
   function applyHead() {
     if (!headOn) { head.style.display = 'none'; return; }
     head.style.display = 'block';
-    var h = Math.min(HEAD_MAX, (bandBot - bandTop) * s + PAD * 2);
+    var h = Math.min(HEAD_MAX, bandBotPx() - bandTopPx() + PAD * 2);
     head.style.height = h + 'px';
     // 横向跟随主图；纵向把参与者那一带钉在头栏顶部
     headstg.style.transform =
-      'translate(' + tx + 'px,' + (PAD - bandTop * s) + 'px) scale(' + s + ')';
+      'translate(' + tx + 'px,' + (PAD - bandTopPx()) + 'px) scale(' + s + ')';
   }
 
   // 头栏开着时，图自己的那条参与者行必须永远躲在头栏后面 ——
   // 所以 ty 有个上限：图的参与者带顶端不能低于头栏里那条的位置
-  function tyMax() { return headOn ? (PAD - bandTop * s) : Infinity; }
+  function tyMax() { return headOn ? (PAD - bandTopPx()) : Infinity; }
 
   function apply() {
     if (ty > tyMax()) { ty = tyMax(); }
