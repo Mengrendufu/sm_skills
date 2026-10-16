@@ -1,0 +1,4 @@
+interface:
+  display_name: "Show Me"
+  short_description: "将概念、关系、流程或数据制作成可在浏览器打开的 HTML 视觉解释。"
+  default_prompt: "使用 $show-me，将当前讨论制作成可在浏览器打开的 HTML 视觉解释。"

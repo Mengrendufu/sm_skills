@@ -1,0 +1,4 @@
+interface:
+  display_name: "契约检查"
+  short_description: "区分业务失败与设计违约，选择前置、后置、不变量等运行时契约检查。"
+  default_prompt: "使用 $design-by-contract，识别当前代码中的设计违约，并选择合适的运行时契约检查。"

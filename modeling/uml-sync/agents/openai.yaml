@@ -1,0 +1,4 @@
+interface:
+  display_name: "StarUML 模型读取"
+  short_description: "将 StarUML 模型或架构截图转为可读上下文，保持权威模型只读。"
+  default_prompt: "使用 $uml-sync，读取给定 StarUML 模型或架构截图，提取可供讨论的模型上下文。"

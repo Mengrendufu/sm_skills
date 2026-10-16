@@ -1,0 +1,4 @@
+interface:
+  display_name: "UML 架构共创"
+  short_description: "结对讨论职责、归属与接口协作，在设计达成共识后形成 UML 草案。"
+  default_prompt: "使用 $uml-composing，与我逐项讨论架构边界、归属和接口协作，达成共识后绘制 UML 草案。"

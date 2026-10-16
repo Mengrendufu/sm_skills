@@ -1,0 +1,4 @@
+interface:
+  display_name: "接口设计"
+  short_description: "明确接口的职责、输入输出、错误与副作用，约束依赖方向和语义范围。"
+  default_prompt: "使用 $implement-interface，梳理当前接口的职责、输入输出、错误、副作用和依赖方向。"

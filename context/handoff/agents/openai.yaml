@@ -1,0 +1,4 @@
+interface:
+  display_name: "会话交接"
+  short_description: "提取已完成工作、关键决策与待办事项，生成可直接接续的会话上下文。"
+  default_prompt: "使用 $handoff，将当前工作整理成可供新会话直接接续的上下文。"

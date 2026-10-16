@@ -1,0 +1,4 @@
+interface:
+  display_name: "QM 模型理解"
+  short_description: "从 QM 生成的 C 理解状态层级、初始指向、事件转移和守卫分支。"
+  default_prompt: "使用 $qm-model-understand，读取给定 QM C，解释状态层级、初始指向、事件转移和守卫分支。"

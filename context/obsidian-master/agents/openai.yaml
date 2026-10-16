@@ -1,0 +1,4 @@
+interface:
+  display_name: "Obsidian 笔记操作"
+  short_description: "通过本地 CLI 精确定位并操作 Obsidian 笔记与知识库。"
+  default_prompt: "使用 $obsidian-master，在指定知识库中查找并整理相关笔记。"

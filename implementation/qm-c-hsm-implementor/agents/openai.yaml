@@ -1,0 +1,4 @@
+interface:
+  display_name: "QM C HSM 实现"
+  short_description: "按目标语言约束和模板，将已确认的 QM 状态机模型实现到目标运行时。"
+  default_prompt: "使用 $qm-c-hsm-implementor，根据已确认的模型和源代码，选择对应语言的工作流与模板实现状态机。"

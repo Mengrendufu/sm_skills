@@ -1,0 +1,4 @@
+interface:
+  display_name: "方案盘问"
+  short_description: "逐项追问方案中的假设、边界与决策依赖，每次聚焦一个关键问题。"
+  default_prompt: "使用 $grill-me，逐项盘问当前方案，帮助我澄清假设、边界与取舍。"

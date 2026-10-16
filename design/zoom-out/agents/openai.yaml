@@ -1,0 +1,4 @@
+interface:
+  display_name: "顶层视角"
+  short_description: "将讨论抬升至包与模块层级，梳理交互边界、依赖方向和隐藏耦合。"
+  default_prompt: "使用 $zoom-out，从包与模块层级重新审视当前问题，梳理关键交互、边界与取舍。"
